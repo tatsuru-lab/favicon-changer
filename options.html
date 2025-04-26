@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Favicon Changer Options</title>
+  <style>
+    body { font-family: sans-serif; padding: 10px; max-width: 500px; }
+    h1, h2 { border-bottom: 1px solid #eee; padding-bottom: 5px; }
+    label { display: block; margin-bottom: 5px; font-weight: bold; }
+    input[type="text"] { width: 95%; margin-bottom: 15px; padding: 5px; }
+    input[type="file"] { margin-bottom: 15px; }
+    button { margin-top: 15px; padding: 8px 15px; }
+    #settingsList div { 
+        border-bottom: 1px solid #ccc; 
+        padding: 8px 5px; /* Adjusted padding */
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center; 
+    }
+    #settingsList .setting-item-content {
+        cursor: pointer; /* Indicate clickable for editing */
+        flex-grow: 1; /* Allow content to take available space */
+        margin-right: 10px; /* Space before delete button */
+        overflow: hidden; /* Prevent long text overflowing */
+        text-overflow: ellipsis; /* Show ellipsis for overflow */
+        white-space: nowrap; /* Keep content on one line */
+    }
+     #settingsList .setting-item-content:hover {
+        background-color: #f0f0f0; /* Highlight on hover */
+    }
+    #settingsList button { margin-left: 10px; flex-shrink: 0; } /* Ensure button doesn't shrink */
+    .form-buttons { 
+        margin-top: 20px; 
+        display: flex; /* Arrange buttons horizontally */
+        justify-content: flex-start; /* Align buttons to the start */
+        gap: 10px; /* Add space between buttons */
+    }
+    .form-buttons button { margin-top: 0; } /* Reset top margin for buttons inside flex container */
+    .setting-group { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+    .setting-group h3 { margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+    #bundledIconsContainer label { display: inline-block; margin-right: 15px; margin-bottom: 10px; font-weight: normal; }
+    #bundledIconsContainer img { vertical-align: middle; margin-right: 5px; width: 16px; height: 16px; }
+  </style>
+</head>
+<body>
+  <h1>Favicon Changer Options</h1>
+
+  <div class="setting-group">
+    <h2>Add/Update Setting</h2>
+    <small><i>Click on an item in 'Current Settings' below to edit it.</i></small>
+    <label for="domain">Matching Rule (URL Prefix or Keyword):</label>
+    <input type="text" id="domain" placeholder="example.com/path  OR  inbox">
+    <small>
+      Enter a URL prefix (e.g., `example.com`, `sub.example.com/docs`) for prefix matching (applies to subdomains/subpaths).
+      Or, enter a simple keyword (e.g., `jira`, `report`) to match anywhere in the `hostname/pathname`.
+      Prefix rules take precedence over keyword rules.
+    </small>
+
+    <h3 style="margin-top: 15px;">Choose Icon Source:</h3>
+
+    <label for="faviconUrl">1. External Image URL:</label>
+    <input type="text" id="faviconUrl" placeholder="https://example.com/path/to/image.png">
+    <small>Enter a direct URL to an image file (png, jpg, ico, etc.). The image will be automatically resized to 16x16.</small>
+
+    <label style="margin-top: 15px;">2. Select Bundled Icon (from 'images/' folder):</label>
+    <div id="bundledIconsContainer">
+      <!-- Radio buttons will be generated here -->
+      <p><i>No bundled icons found or defined in options.js.</i></p>
+    </div>
+
+    <label style="margin-top: 15px;" for="iconUpload">3. Upload New Icon:</label>
+    <input type="file" id="iconUpload" accept="image/png, image/jpeg, image/x-icon, image/svg+xml">
+    <small>Note: Only one icon source (URL, Bundled, or Upload) will be used per setting.</small>
+
+    <div class="form-buttons">
+        <button id="save">Save Setting</button>
+        <button id="clearForm">Clear Form</button> 
+    </div>
+  </div>
+
+  <h2>Current Settings</h2>
+  <div id="settingsList">
+    <!-- Settings will be loaded here -->
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html> 

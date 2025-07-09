@@ -1,0 +1,214 @@
+{
+  "extensionName": {
+    "message": "Favicon Changer",
+    "description": "Name of the extension"
+  },
+  "extensionDescription": {
+    "message": "Changes the favicon of specified websites.",
+    "description": "Description of the extension"
+  },
+  "optionsTitle": {
+    "message": "Favicon Changer Options",
+    "description": "Title of the options page"
+  },
+  "addUpdateSetting": {
+    "message": "Add/Update Setting",
+    "description": "Section header for adding or updating settings"
+  },
+  "clickToEdit": {
+    "message": "Click on an item in 'Current Settings' below to edit it.",
+    "description": "Instructions for editing existing settings"
+  },
+  "matchingRule": {
+    "message": "Matching Rule (URL Prefix or Keyword):",
+    "description": "Label for the domain/rule input field"
+  },
+  "matchingRulePlaceholder": {
+    "message": "example.com/path  OR  inbox",
+    "description": "Placeholder text for the matching rule input"
+  },
+  "matchingRuleHelp": {
+    "message": "Enter a URL prefix (e.g., `example.com`, `sub.example.com/docs`) for prefix matching (applies to subdomains/subpaths). Or, enter a simple keyword (e.g., `jira`, `report`) to match anywhere in the `hostname/pathname`. Prefix rules take precedence over keyword rules.",
+    "description": "Help text explaining how matching rules work"
+  },
+  "chooseIconSource": {
+    "message": "Choose Icon Source:",
+    "description": "Header for icon source selection"
+  },
+  "externalImageUrl": {
+    "message": "1. External Image URL:",
+    "description": "Label for external image URL option"
+  },
+  "externalImageUrlPlaceholder": {
+    "message": "https://example.com/path/to/image.png",
+    "description": "Placeholder for external image URL input"
+  },
+  "externalImageUrlHelp": {
+    "message": "Enter a direct URL to an image file (png, jpg, ico, etc.). The image will be automatically resized to 16x16.",
+    "description": "Help text for external image URL"
+  },
+  "selectBundledIcon": {
+    "message": "2. Select Bundled Icon (from 'images/' folder):",
+    "description": "Label for bundled icon selection"
+  },
+  "noBundledIcons": {
+    "message": "No bundled icons found or defined in options.js.",
+    "description": "Message when no bundled icons are available"
+  },
+  "noBundledIconsDefined": {
+    "message": "No bundled icons defined in options.js.",
+    "description": "Message when no bundled icons are defined"
+  },
+  "uploadNewIcon": {
+    "message": "3. Upload New Icon:",
+    "description": "Label for upload icon option"
+  },
+  "oneIconSourceNote": {
+    "message": "Note: Only one icon source (URL, Bundled, or Upload) will be used per setting.",
+    "description": "Note about using only one icon source"
+  },
+  "saveSetting": {
+    "message": "Save Setting",
+    "description": "Text for save button"
+  },
+  "saving": {
+    "message": "Saving...",
+    "description": "Text shown when saving is in progress"
+  },
+  "clearForm": {
+    "message": "Clear Form",
+    "description": "Text for clear form button"
+  },
+  "currentSettings": {
+    "message": "Current Settings",
+    "description": "Header for current settings section"
+  },
+  "delete": {
+    "message": "Delete",
+    "description": "Text for delete button"
+  },
+  "uploadedResizedIcon": {
+    "message": "Uploaded/Resized Icon",
+    "description": "Display text for uploaded icons"
+  },
+  "bundled": {
+    "message": "Bundled",
+    "description": "Prefix for bundled icon display"
+  },
+  "prefix": {
+    "message": "Prefix",
+    "description": "Label for prefix rule type"
+  },
+  "keyword": {
+    "message": "Keyword",
+    "description": "Label for keyword rule type"
+  },
+  "editingUploadedIcon": {
+    "message": "Editing an uploaded icon. Please choose a new icon source if you wish to change it.",
+    "description": "Alert message when editing uploaded icons"
+  },
+  "enterMatchingRule": {
+    "message": "Please enter a Matching Rule (URL Prefix or Keyword).",
+    "description": "Error message when matching rule is empty"
+  },
+  "provideIconSource": {
+    "message": "Please provide an icon source.",
+    "description": "Error message when no icon source is provided"
+  },
+  "oneIconSourceOnly": {
+    "message": "Please provide only one icon source.",
+    "description": "Error message when multiple icon sources are provided"
+  },
+  "invalidUrlPrefix": {
+    "message": "Invalid URL prefix format: {url}. Please enter like example.com or example.com/path",
+    "description": "Error message for invalid URL prefix format"
+  },
+  "invalidUrlFormat": {
+    "message": "Invalid URL format.",
+    "description": "Error message for invalid URL format"
+  },
+  "notAnImageHead": {
+    "message": "Not an image (HEAD check).",
+    "description": "Error message when URL is not an image (HEAD check)"
+  },
+  "notAnImageGet": {
+    "message": "Not an image (GET check).",
+    "description": "Error message when URL is not an image (GET check)"
+  },
+  "urlCheckFailed": {
+    "message": "URL check failed: {error}",
+    "description": "Error message when URL check fails"
+  },
+  "fetchFailed": {
+    "message": "Fetch failed: {status}",
+    "description": "Error message when fetch fails"
+  },
+  "errorPrefix": {
+    "message": "Error: {error}",
+    "description": "Generic error message prefix"
+  },
+  "couldNotLoadBundledIcon": {
+    "message": "Could not load bundled icon preview: {filename}",
+    "description": "Warning message when bundled icon preview fails to load"
+  },
+  "creatingOffscreenDocument": {
+    "message": "Creating offscreen document...",
+    "description": "Log message when creating offscreen document"
+  },
+  "offscreenDocumentCreated": {
+    "message": "Offscreen document created.",
+    "description": "Log message when offscreen document is created"
+  },
+  "applyingIconMatch": {
+    "message": "Applying icon via {matchType} match: '{rule}' for {url}",
+    "description": "Log message when applying icon match"
+  },
+  "noMatchingRule": {
+    "message": "No matching rule found for \"{url}\"",
+    "description": "Log message when no matching rule is found"
+  },
+  "contentScriptNotReady": {
+    "message": "Content script not ready for tab {tabId}.",
+    "description": "Warning message when content script is not ready"
+  },
+  "errorSendingMessage": {
+    "message": "Error sending message to tab {tabId}: {error}",
+    "description": "Error message when sending message to tab fails"
+  },
+  "contentScriptLoaded": {
+    "message": "Favicon Changer content script loaded and listening for messages.",
+    "description": "Log message when content script is loaded"
+  },
+  "usingDataUrl": {
+    "message": "Using Data URL for favicon (truncated): {dataUrl}...",
+    "description": "Log message when using data URL for favicon"
+  },
+  "usingExternalUrl": {
+    "message": "Using provided external URL: {url}",
+    "description": "Log message when using external URL for favicon"
+  },
+  "usingBundledIcon": {
+    "message": "Using bundled icon: {url}",
+    "description": "Log message when using bundled icon"
+  },
+  "errorGettingBundledIcon": {
+    "message": "Error getting URL for bundled icon '{icon}': {error}",
+    "description": "Error message when getting bundled icon URL fails"
+  },
+  "documentHeadNotFound": {
+    "message": "Favicon Changer: document.head not found yet. Favicon change deferred.",
+    "description": "Warning message when document head is not found"
+  },
+  "faviconChanged": {
+    "message": "Favicon changed using: {url}",
+    "description": "Log message when favicon is successfully changed"
+  },
+  "faviconChangedDataUrl": {
+    "message": "Data URL",
+    "description": "Display text for data URL in favicon change log"
+  },
+  "faviconIdentifierMissing": {
+    "message": "Favicon identifier (URL, filename, or Data URL) missing in request.",
+    "description": "Error message when favicon identifier is missing"
+  }
+} 

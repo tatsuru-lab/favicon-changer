@@ -1,5 +1,13 @@
 // Content script
-console.log("Favicon Changer content script loaded and listening for messages.");
+// Function to get localized message in content script
+function getMessage(key, substitutions = []) {
+  if (substitutions.length === 0) {
+    return chrome.i18n.getMessage(key);
+  }
+  return chrome.i18n.getMessage(key, substitutions);
+}
+
+console.log(getMessage('contentScriptLoaded'));
 
 function changeFavicon(iconIdentifier) {
   let faviconUrl;
@@ -8,25 +16,25 @@ function changeFavicon(iconIdentifier) {
   if (iconIdentifier.startsWith('data:image/')) {
     // Handle Data URL directly
     faviconUrl = iconIdentifier;
-    console.log("Using Data URL for favicon (truncated):", faviconUrl.substring(0, 50) + "...");
+    console.log(getMessage('usingDataUrl', [faviconUrl.substring(0, 50)]));
   } else if (iconIdentifier.startsWith('http://') || iconIdentifier.startsWith('https://')) {
     // Handle external URL
     faviconUrl = iconIdentifier;
-    console.log("Using provided external URL:", faviconUrl);
+    console.log(getMessage('usingExternalUrl', [faviconUrl]));
   } else {
     // Assume it's a bundled filename within the 'images' folder
     try {
       faviconUrl = chrome.runtime.getURL(`images/${iconIdentifier}`);
-      console.log("Using bundled icon:", faviconUrl);
+      console.log(getMessage('usingBundledIcon', [faviconUrl]));
     } catch (e) {
-      console.error(`Error getting URL for bundled icon '${iconIdentifier}':`, e);
+      console.error(getMessage('errorGettingBundledIcon', [iconIdentifier, e]));
       return; // Don't proceed if the URL couldn't be generated
     }
   }
 
   // Ensure head element exists
   if (!document.head) {
-    console.warn("Favicon Changer: document.head not found yet. Favicon change deferred.");
+    console.warn(getMessage('documentHeadNotFound'));
     setTimeout(() => changeFavicon(iconIdentifier), 100);
     return;
   }
@@ -55,7 +63,8 @@ function changeFavicon(iconIdentifier) {
   link.rel = 'icon';
   link.href = faviconUrl;
   document.head.appendChild(link);
-  console.log('Favicon changed using:', faviconUrl.startsWith('data:') ? 'Data URL' : faviconUrl);
+  const displayUrl = faviconUrl.startsWith('data:') ? getMessage('faviconChangedDataUrl') : faviconUrl;
+  console.log(getMessage('faviconChanged', [displayUrl]));
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -64,7 +73,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.faviconUrl) {
       changeFavicon(request.faviconUrl);
     } else {
-      console.error("Favicon identifier (URL, filename, or Data URL) missing in request.");
+      console.error(getMessage('faviconIdentifierMissing'));
     }
   }
 });

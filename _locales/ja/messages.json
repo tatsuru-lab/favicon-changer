@@ -1,0 +1,214 @@
+{
+  "extensionName": {
+    "message": "Favicon Changer",
+    "description": "Name of the extension"
+  },
+  "extensionDescription": {
+    "message": "指定されたウェブサイトのファビコンを変更します。",
+    "description": "Description of the extension"
+  },
+  "optionsTitle": {
+    "message": "Favicon Changer オプション",
+    "description": "Title of the options page"
+  },
+  "addUpdateSetting": {
+    "message": "設定の追加・更新",
+    "description": "Section header for adding or updating settings"
+  },
+  "clickToEdit": {
+    "message": "編集するには、下の「現在の設定」のアイテムをクリックしてください。",
+    "description": "Instructions for editing existing settings"
+  },
+  "matchingRule": {
+    "message": "マッチングルール（URLプレフィックスまたはキーワード）:",
+    "description": "Label for the domain/rule input field"
+  },
+  "matchingRulePlaceholder": {
+    "message": "example.com/path  または  inbox",
+    "description": "Placeholder text for the matching rule input"
+  },
+  "matchingRuleHelp": {
+    "message": "プレフィックスマッチング用にURLプレフィックス（例：`example.com`、`sub.example.com/docs`）を入力してください（サブドメイン・サブパスに適用されます）。または、`hostname/pathname`の任意の場所でマッチさせるため、シンプルなキーワード（例：`jira`、`report`）を入力してください。プレフィックスルールはキーワードルールよりも優先されます。",
+    "description": "Help text explaining how matching rules work"
+  },
+  "chooseIconSource": {
+    "message": "アイコンソースの選択:",
+    "description": "Header for icon source selection"
+  },
+  "externalImageUrl": {
+    "message": "1. 外部画像URL:",
+    "description": "Label for external image URL option"
+  },
+  "externalImageUrlPlaceholder": {
+    "message": "https://example.com/path/to/image.png",
+    "description": "Placeholder for external image URL input"
+  },
+  "externalImageUrlHelp": {
+    "message": "画像ファイル（png、jpg、icoなど）への直接URLを入力してください。画像は自動的に16x16にリサイズされます。",
+    "description": "Help text for external image URL"
+  },
+  "selectBundledIcon": {
+    "message": "2. バンドルアイコンの選択（'images/'フォルダから）:",
+    "description": "Label for bundled icon selection"
+  },
+  "noBundledIcons": {
+    "message": "バンドルアイコンが見つからないか、options.jsで定義されていません。",
+    "description": "Message when no bundled icons are available"
+  },
+  "noBundledIconsDefined": {
+    "message": "options.jsでバンドルアイコンが定義されていません。",
+    "description": "Message when no bundled icons are defined"
+  },
+  "uploadNewIcon": {
+    "message": "3. 新しいアイコンのアップロード:",
+    "description": "Label for upload icon option"
+  },
+  "oneIconSourceNote": {
+    "message": "注意: 設定ごとに一つのアイコンソース（URL、バンドル、またはアップロード）のみが使用されます。",
+    "description": "Note about using only one icon source"
+  },
+  "saveSetting": {
+    "message": "設定を保存",
+    "description": "Text for save button"
+  },
+  "saving": {
+    "message": "保存中...",
+    "description": "Text shown when saving is in progress"
+  },
+  "clearForm": {
+    "message": "フォームをクリア",
+    "description": "Text for clear form button"
+  },
+  "currentSettings": {
+    "message": "現在の設定",
+    "description": "Header for current settings section"
+  },
+  "delete": {
+    "message": "削除",
+    "description": "Text for delete button"
+  },
+  "uploadedResizedIcon": {
+    "message": "アップロード/リサイズ済みアイコン",
+    "description": "Display text for uploaded icons"
+  },
+  "bundled": {
+    "message": "バンドル",
+    "description": "Prefix for bundled icon display"
+  },
+  "prefix": {
+    "message": "プレフィックス",
+    "description": "Label for prefix rule type"
+  },
+  "keyword": {
+    "message": "キーワード",
+    "description": "Label for keyword rule type"
+  },
+  "editingUploadedIcon": {
+    "message": "アップロード済みアイコンを編集中です。変更したい場合は新しいアイコンソースを選択してください。",
+    "description": "Alert message when editing uploaded icons"
+  },
+  "enterMatchingRule": {
+    "message": "マッチングルール（URLプレフィックスまたはキーワード）を入力してください。",
+    "description": "Error message when matching rule is empty"
+  },
+  "provideIconSource": {
+    "message": "アイコンソースを提供してください。",
+    "description": "Error message when no icon source is provided"
+  },
+  "oneIconSourceOnly": {
+    "message": "アイコンソースは一つだけ提供してください。",
+    "description": "Error message when multiple icon sources are provided"
+  },
+  "invalidUrlPrefix": {
+    "message": "無効なURLプレフィックス形式: {url}。example.comやexample.com/pathのように入力してください",
+    "description": "Error message for invalid URL prefix format"
+  },
+  "invalidUrlFormat": {
+    "message": "無効なURL形式です。",
+    "description": "Error message for invalid URL format"
+  },
+  "notAnImageHead": {
+    "message": "画像ではありません（HEADチェック）。",
+    "description": "Error message when URL is not an image (HEAD check)"
+  },
+  "notAnImageGet": {
+    "message": "画像ではありません（GETチェック）。",
+    "description": "Error message when URL is not an image (GET check)"
+  },
+  "urlCheckFailed": {
+    "message": "URLチェックが失敗しました: {error}",
+    "description": "Error message when URL check fails"
+  },
+  "fetchFailed": {
+    "message": "取得に失敗しました: {status}",
+    "description": "Error message when fetch fails"
+  },
+  "errorPrefix": {
+    "message": "エラー: {error}",
+    "description": "Generic error message prefix"
+  },
+  "couldNotLoadBundledIcon": {
+    "message": "バンドルアイコンプレビューを読み込めませんでした: {filename}",
+    "description": "Warning message when bundled icon preview fails to load"
+  },
+  "creatingOffscreenDocument": {
+    "message": "オフスクリーンドキュメントを作成中...",
+    "description": "Log message when creating offscreen document"
+  },
+  "offscreenDocumentCreated": {
+    "message": "オフスクリーンドキュメントが作成されました。",
+    "description": "Log message when offscreen document is created"
+  },
+  "applyingIconMatch": {
+    "message": "{matchType}マッチ「{rule}」を{url}に適用中",
+    "description": "Log message when applying icon match"
+  },
+  "noMatchingRule": {
+    "message": "「{url}」に一致するルールが見つかりません",
+    "description": "Log message when no matching rule is found"
+  },
+  "contentScriptNotReady": {
+    "message": "タブ{tabId}のコンテンツスクリプトが準備できていません。",
+    "description": "Warning message when content script is not ready"
+  },
+  "errorSendingMessage": {
+    "message": "タブ{tabId}へのメッセージ送信エラー: {error}",
+    "description": "Error message when sending message to tab fails"
+  },
+  "contentScriptLoaded": {
+    "message": "Favicon Changerコンテンツスクリプトが読み込まれ、メッセージを待機中です。",
+    "description": "Log message when content script is loaded"
+  },
+  "usingDataUrl": {
+    "message": "ファビコン用データURLを使用（省略形）: {dataUrl}...",
+    "description": "Log message when using data URL for favicon"
+  },
+  "usingExternalUrl": {
+    "message": "提供された外部URLを使用: {url}",
+    "description": "Log message when using external URL for favicon"
+  },
+  "usingBundledIcon": {
+    "message": "バンドルアイコンを使用: {url}",
+    "description": "Log message when using bundled icon"
+  },
+  "errorGettingBundledIcon": {
+    "message": "バンドルアイコン「{icon}」のURL取得エラー: {error}",
+    "description": "Error message when getting bundled icon URL fails"
+  },
+  "documentHeadNotFound": {
+    "message": "Favicon Changer: document.headがまだ見つかりません。ファビコン変更を延期します。",
+    "description": "Warning message when document head is not found"
+  },
+  "faviconChanged": {
+    "message": "ファビコンが変更されました: {url}",
+    "description": "Log message when favicon is successfully changed"
+  },
+  "faviconChangedDataUrl": {
+    "message": "データURL",
+    "description": "Display text for data URL in favicon change log"
+  },
+  "faviconIdentifierMissing": {
+    "message": "リクエストにファビコン識別子（URL、ファイル名、またはデータURL）がありません。",
+    "description": "Error message when favicon identifier is missing"
+  }
+} 

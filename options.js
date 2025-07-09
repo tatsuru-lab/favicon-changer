@@ -11,6 +11,39 @@ const bundledIconFilenames = [
   // 'project_a.svg'
 ];
 
+// Function to get localized message
+function getMessage(key, substitutions = []) {
+  if (substitutions.length === 0) {
+    return chrome.i18n.getMessage(key);
+  }
+  return chrome.i18n.getMessage(key, substitutions);
+}
+
+// Function to set up localized text
+function setupLocalizedText() {
+  // Update HTML page title
+  document.title = getMessage('optionsTitle');
+  
+  // Update static text elements
+  document.getElementById('mainTitle').textContent = getMessage('optionsTitle');
+  document.getElementById('addUpdateTitle').textContent = getMessage('addUpdateSetting');
+  document.getElementById('clickToEditText').textContent = getMessage('clickToEdit');
+  document.getElementById('matchingRuleLabel').textContent = getMessage('matchingRule');
+  document.getElementById('domain').placeholder = getMessage('matchingRulePlaceholder');
+  document.getElementById('matchingRuleHelp').textContent = getMessage('matchingRuleHelp');
+  document.getElementById('chooseIconSourceTitle').textContent = getMessage('chooseIconSource');
+  document.getElementById('externalImageUrlLabel').textContent = getMessage('externalImageUrl');
+  document.getElementById('faviconUrl').placeholder = getMessage('externalImageUrlPlaceholder');
+  document.getElementById('externalImageUrlHelp').textContent = getMessage('externalImageUrlHelp');
+  document.getElementById('selectBundledIconLabel').textContent = getMessage('selectBundledIcon');
+  document.getElementById('noBundledIconsText').textContent = getMessage('noBundledIcons');
+  document.getElementById('uploadNewIconLabel').textContent = getMessage('uploadNewIcon');
+  document.getElementById('oneIconSourceNote').textContent = getMessage('oneIconSourceNote');
+  document.getElementById('save').textContent = getMessage('saveSetting');
+  document.getElementById('clearForm').textContent = getMessage('clearForm');
+  document.getElementById('currentSettingsTitle').textContent = getMessage('currentSettings');
+}
+
 const domainInput = document.getElementById('domain');
 const faviconUrlInput = document.getElementById('faviconUrl');
 const iconUploadInput = document.getElementById('iconUpload');
@@ -22,7 +55,7 @@ const clearFormButton = document.getElementById('clearForm'); // Renamed variabl
 // Function to generate radio buttons for bundled icons
 function populateBundledIcons() {
   if (bundledIconFilenames.length === 0) {
-    bundledIconsContainer.innerHTML = '<p><i>No bundled icons defined in options.js.</i></p>';
+    bundledIconsContainer.innerHTML = `<p><i>${getMessage('noBundledIconsDefined')}</i></p>`;
     return;
   }
 
@@ -44,7 +77,7 @@ function populateBundledIcons() {
     img.src = iconUrl;
     img.alt = filename;
     img.onerror = () => { 
-        console.warn(`Could not load bundled icon preview: ${filename}`);
+        console.warn(getMessage('couldNotLoadBundledIcon', [filename]));
         img.style.display = 'none'; // Hide broken image preview
     };
 
@@ -82,7 +115,7 @@ function addSettingToList(settingKey, iconIdentifier) {
   // Icon processing display (Determine iconType)
   if (iconIdentifier.startsWith('data:image/')) {
     imgPrev.src = iconIdentifier;
-    valueDisplay = 'Uploaded/Resized Icon';
+    valueDisplay = getMessage('uploadedResizedIcon');
     iconType = 'data';
   } else if (iconIdentifier.startsWith('http')) {
     // This case is less likely now but handle it
@@ -94,17 +127,18 @@ function addSettingToList(settingKey, iconIdentifier) {
     // Bundled icon (filename)
     try {
       imgPrev.src = chrome.runtime.getURL(`images/${iconIdentifier}`);
-      valueDisplay = `Bundled: ${iconIdentifier}`;
+      valueDisplay = `${getMessage('bundled')}: ${iconIdentifier}`;
       iconType = 'bundled';
     } catch (e) {
       imgPrev.style.display = 'none';
-      valueDisplay = `Bundled: ${iconIdentifier} (Error?)`;
+      valueDisplay = `${getMessage('bundled')}: ${iconIdentifier} (Error?)`;
       iconType = 'bundled_error'; // Indicate potential issue
     }
   }
   
   const textSpan = document.createElement('span');
-  textSpan.textContent = `[${ruleType}] ${settingKey}: ${valueDisplay}`;
+  const localizedRuleType = ruleType === "Prefix" ? getMessage('prefix') : getMessage('keyword');
+  textSpan.textContent = `[${localizedRuleType}] ${settingKey}: ${valueDisplay}`;
   if (ruleType === "Keyword") {
     textSpan.style.fontStyle = 'italic';
   }
@@ -136,7 +170,7 @@ function addSettingToList(settingKey, iconIdentifier) {
     } else if (iconType === 'data'){
       // Can't pre-fill file input or easily show Data URL preview here.
       // User must select a new source if they want to change the icon.
-      alert('Editing an uploaded icon. Please choose a new icon source if you wish to change it.');
+      alert(getMessage('editingUploadedIcon'));
     } else {
       // Bundled error or unknown - clear fields
     }
@@ -148,7 +182,7 @@ function addSettingToList(settingKey, iconIdentifier) {
   // --- End Click Listener ---
 
   const deleteButton = document.createElement('button');
-  deleteButton.textContent = 'Delete';
+  deleteButton.textContent = getMessage('delete');
   deleteButton.addEventListener('click', () => {
     // Optionally clear form if deleting the item being edited
     if (domainInput.value === settingKey) {
@@ -197,7 +231,7 @@ async function resizeImageToDataUrl(imageUrl, targetWidth, targetHeight) {
 // Save a new or updated setting
 async function saveSetting() {
     saveButton.disabled = true;
-    saveButton.textContent = 'Saving...';
+    saveButton.textContent = getMessage('saving');
 
     let ruleInput = domainInput.value.trim();
     const faviconUrlInputVal = faviconUrlInput.value.trim();
@@ -207,20 +241,20 @@ async function saveSetting() {
 
     // --- Input Validation (Rule and Icon Source Count) ---
     if (!ruleInput) {
-        alert('Please enter a Matching Rule (URL Prefix or Keyword).');
-        saveButton.disabled = false; saveButton.textContent = 'Save Setting';
+        alert(getMessage('enterMatchingRule'));
+        saveButton.disabled = false; saveButton.textContent = getMessage('saveSetting');
         return;
     }
     // Removed Regex Validation
 
     const sourcesProvided = [faviconUrlInputVal, file, bundledIconValue].filter(Boolean).length;
     if (sourcesProvided === 0) {
-        alert('Please provide an icon source.');
-        saveButton.disabled = false; saveButton.textContent = 'Save Setting';
+        alert(getMessage('provideIconSource'));
+        saveButton.disabled = false; saveButton.textContent = getMessage('saveSetting');
         return;
     } else if (sourcesProvided > 1) {
-        alert('Please provide only one icon source.');
-        saveButton.disabled = false; saveButton.textContent = 'Save Setting';
+        alert(getMessage('oneIconSourceOnly'));
+        saveButton.disabled = false; saveButton.textContent = getMessage('saveSetting');
         return;
     }
     // --- End Input Validation ---
@@ -244,8 +278,8 @@ async function saveSetting() {
             settingKey = hostname + pathname;
             console.log(`Generated prefix key: ${settingKey}`);
         } catch (e) {
-            alert(`Invalid URL prefix format: ${ruleInput}. Please enter like example.com or example.com/path`);
-            saveButton.disabled = false; saveButton.textContent = 'Save Setting';
+            alert(getMessage('invalidUrlPrefix', [ruleInput]));
+            saveButton.disabled = false; saveButton.textContent = getMessage('saveSetting');
             return;
         }
     } else {
@@ -265,21 +299,21 @@ async function saveSetting() {
         } else if (faviconUrlInputVal) {
             // (Includes Content-Type check and resize logic - No changes here)
              if (!faviconUrlInputVal.startsWith('http://') && !faviconUrlInputVal.startsWith('https://')) {
-                throw new Error('Invalid URL format.');
+                throw new Error(getMessage('invalidUrlFormat'));
             }
             try {
                 const response = await fetch(faviconUrlInputVal, { method: 'HEAD' });
                 if (!response.ok) {
                      const getResponse = await fetch(faviconUrlInputVal);
-                     if (!getResponse.ok) throw new Error(`Fetch failed: ${getResponse.status}`);
+                     if (!getResponse.ok) throw new Error(getMessage('fetchFailed', [getResponse.status]));
                      const contentType = getResponse.headers.get('Content-Type');
-                     if (!contentType || !contentType.startsWith('image/')) throw new Error('Not an image (GET check).');
+                     if (!contentType || !contentType.startsWith('image/')) throw new Error(getMessage('notAnImageGet'));
                 } else {
                     const contentType = response.headers.get('Content-Type');
-                    if (!contentType || !contentType.startsWith('image/')) throw new Error('Not an image (HEAD check).');
+                    if (!contentType || !contentType.startsWith('image/')) throw new Error(getMessage('notAnImageHead'));
                 }
             } catch (fetchError) {
-                throw new Error(`URL check failed: ${fetchError.message}`);
+                throw new Error(getMessage('urlCheckFailed', [fetchError.message]));
             }
             iconIdentifierToSave = await resizeImageToDataUrl(faviconUrlInputVal, 16, 16);
         }
@@ -296,14 +330,14 @@ async function saveSetting() {
                 iconUploadInput.value = '';
                 if (selectedBundledIconRadio) selectedBundledIconRadio.checked = false;
                 loadSettings();
-                saveButton.disabled = false; saveButton.textContent = 'Save Setting';
+                saveButton.disabled = false; saveButton.textContent = getMessage('saveSetting');
             });
         });
 
     } catch (error) {
         console.error("Error processing icon or saving settings:", error);
-        alert(`Error: ${error.message}`);
-        saveButton.disabled = false; saveButton.textContent = 'Save Setting';
+        alert(getMessage('errorPrefix', [error.message]));
+        saveButton.disabled = false; saveButton.textContent = getMessage('saveSetting');
     }
 }
 
@@ -350,6 +384,7 @@ function clearForm() {
 saveButton.addEventListener('click', saveSetting);
 clearFormButton.addEventListener('click', clearForm); // Renamed function and updated listener
 document.addEventListener('DOMContentLoaded', () => {
+    setupLocalizedText();
     populateBundledIcons();
     loadSettings();
 }); 

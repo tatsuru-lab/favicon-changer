@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Favicon Changer Options</title>
+  <title>__MSG_optionsTitle__</title>
   <style>
     body { font-family: sans-serif; padding: 10px; max-width: 500px; }
     h1, h2 { border-bottom: 1px solid #eee; padding-bottom: 5px; }
@@ -42,34 +42,34 @@
   </style>
 </head>
 <body>
-  <h1>Favicon Changer Options</h1>
+  <h1 id="mainTitle">Favicon Changer Options</h1>
 
   <div class="setting-group">
-    <h2>Add/Update Setting</h2>
-    <small><i>Click on an item in 'Current Settings' below to edit it.</i></small>
-    <label for="domain">Matching Rule (URL Prefix or Keyword):</label>
+    <h2 id="addUpdateTitle">Add/Update Setting</h2>
+    <small><i id="clickToEditText">Click on an item in 'Current Settings' below to edit it.</i></small>
+    <label for="domain" id="matchingRuleLabel">Matching Rule (URL Prefix or Keyword):</label>
     <input type="text" id="domain" placeholder="example.com/path  OR  inbox">
-    <small>
+    <small id="matchingRuleHelp">
       Enter a URL prefix (e.g., `example.com`, `sub.example.com/docs`) for prefix matching (applies to subdomains/subpaths).
       Or, enter a simple keyword (e.g., `jira`, `report`) to match anywhere in the `hostname/pathname`.
       Prefix rules take precedence over keyword rules.
     </small>
 
-    <h3 style="margin-top: 15px;">Choose Icon Source:</h3>
+    <h3 style="margin-top: 15px;" id="chooseIconSourceTitle">Choose Icon Source:</h3>
 
-    <label for="faviconUrl">1. External Image URL:</label>
+    <label for="faviconUrl" id="externalImageUrlLabel">1. External Image URL:</label>
     <input type="text" id="faviconUrl" placeholder="https://example.com/path/to/image.png">
-    <small>Enter a direct URL to an image file (png, jpg, ico, etc.). The image will be automatically resized to 16x16.</small>
+    <small id="externalImageUrlHelp">Enter a direct URL to an image file (png, jpg, ico, etc.). The image will be automatically resized to 16x16.</small>
 
-    <label style="margin-top: 15px;">2. Select Bundled Icon (from 'images/' folder):</label>
+    <label style="margin-top: 15px;" id="selectBundledIconLabel">2. Select Bundled Icon (from 'images/' folder):</label>
     <div id="bundledIconsContainer">
       <!-- Radio buttons will be generated here -->
-      <p><i>No bundled icons found or defined in options.js.</i></p>
+      <p><i id="noBundledIconsText">No bundled icons found or defined in options.js.</i></p>
     </div>
 
-    <label style="margin-top: 15px;" for="iconUpload">3. Upload New Icon:</label>
+    <label style="margin-top: 15px;" for="iconUpload" id="uploadNewIconLabel">3. Upload New Icon:</label>
     <input type="file" id="iconUpload" accept="image/png, image/jpeg, image/x-icon, image/svg+xml">
-    <small>Note: Only one icon source (URL, Bundled, or Upload) will be used per setting.</small>
+    <small id="oneIconSourceNote">Note: Only one icon source (URL, Bundled, or Upload) will be used per setting.</small>
 
     <div class="form-buttons">
         <button id="save">Save Setting</button>
@@ -77,7 +77,7 @@
     </div>
   </div>
 
-  <h2>Current Settings</h2>
+  <h2 id="currentSettingsTitle">Current Settings</h2>
   <div id="settingsList">
     <!-- Settings will be loaded here -->
   </div>

@@ -1,6 +1,14 @@
 // --- Offscreen Document Management ---
 let creatingOffscreenDocument;
 
+// Function to get localized message in background script
+function getMessage(key, substitutions = []) {
+  if (substitutions.length === 0) {
+    return chrome.i18n.getMessage(key);
+  }
+  return chrome.i18n.getMessage(key, substitutions);
+}
+
 // Function to ensure the offscreen document is available and return a promise
 async function ensureOffscreenDocument(path = 'offscreen.html') {
     // Check if the document already exists
@@ -14,7 +22,7 @@ async function ensureOffscreenDocument(path = 'offscreen.html') {
     if (creatingOffscreenDocument) {
         await creatingOffscreenDocument;
     } else {
-        console.log("Creating offscreen document...");
+        console.log(getMessage('creatingOffscreenDocument'));
         creatingOffscreenDocument = chrome.offscreen.createDocument({
             url: path,
             reasons: ['OFFSCREEN_CANVAS'],
@@ -22,7 +30,7 @@ async function ensureOffscreenDocument(path = 'offscreen.html') {
         });
         await creatingOffscreenDocument;
         creatingOffscreenDocument = null; // Reset the promise after creation
-        console.log("Offscreen document created.");
+        console.log(getMessage('offscreenDocumentCreated'));
     }
 }
 
@@ -107,7 +115,8 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
       if (finalMatchKey) {
         const finalFaviconIdentifier = settings[finalMatchKey];
         const matchType = finalMatchKey.includes('/') ? "Prefix" : "Keyword"; // Type determined by the key itself
-        console.log(`Applying icon via ${matchType} match: '${finalMatchKey}' for ${stringToTest}`);
+        const localizedMatchType = matchType === "Prefix" ? getMessage('prefix') : getMessage('keyword');
+        console.log(getMessage('applyingIconMatch', [localizedMatchType, finalMatchKey, stringToTest]));
 
         // Send the identifier to content script
         chrome.tabs.sendMessage(tabId, {
@@ -115,13 +124,13 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
             faviconUrl: finalFaviconIdentifier
         }).catch(err => {
             if (err.message.includes("Could not establish connection")) {
-                console.warn(`Content script not ready for tab ${tabId}.`);
+                console.warn(getMessage('contentScriptNotReady', [tabId]));
             } else {
-                console.error(`Error sending message to tab ${tabId}:`, err);
+                console.error(getMessage('errorSendingMessage', [tabId, err]));
             }
         });
       } else {
-        // console.log(`No matching rule found for "${stringToTest}"`);
+        // console.log(getMessage('noMatchingRule', [stringToTest]));
       }
     });
   }

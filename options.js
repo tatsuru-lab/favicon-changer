@@ -55,6 +55,27 @@ function setupLocalizedText() {
     chooseIconSourceTitle.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 8px;">image</i>${getMessage('chooseIconSource')}`;
   }
   
+  const chooseIconSourceHelp = document.querySelector('#chooseIconSourceHelp');
+  if (chooseIconSourceHelp) {
+    chooseIconSourceHelp.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 4px; font-size: 16px;">info</i>Select one of the following icon sources:`;
+  }
+  
+  // Update accordion titles
+  const urlAccordionTitle = document.querySelector('#urlAccordionTitle');
+  if (urlAccordionTitle) {
+    urlAccordionTitle.textContent = getMessage('externalImageUrl');
+  }
+  
+  const bundledAccordionTitle = document.querySelector('#bundledAccordionTitle');
+  if (bundledAccordionTitle) {
+    bundledAccordionTitle.textContent = getMessage('selectBundledIcon');
+  }
+  
+  const uploadAccordionTitle = document.querySelector('#uploadAccordionTitle');
+  if (uploadAccordionTitle) {
+    uploadAccordionTitle.textContent = getMessage('uploadNewIcon');
+  }
+  
   const externalImageUrlLabel = document.querySelector('#externalImageUrlLabel');
   if (externalImageUrlLabel) {
     externalImageUrlLabel.textContent = getMessage('externalImageUrl');
@@ -127,6 +148,139 @@ const saveButton = document.getElementById('save');
 const settingsListDiv = document.getElementById('settingsList');
 const clearFormButton = document.getElementById('clearForm'); // Renamed variable
 
+// Accordion functionality
+let currentActiveSource = null;
+
+function initAccordion() {
+  const accordionHeaders = document.querySelectorAll('.accordion-header');
+  
+  accordionHeaders.forEach(header => {
+    header.addEventListener('click', () => {
+      const item = header.closest('.accordion-item');
+      const content = item.querySelector('.accordion-content');
+      const source = item.dataset.source;
+      
+      // Close all other accordion items
+      accordionHeaders.forEach(otherHeader => {
+        const otherItem = otherHeader.closest('.accordion-item');
+        const otherContent = otherItem.querySelector('.accordion-content');
+        const otherSource = otherItem.dataset.source;
+        
+        if (otherSource !== source) {
+          otherHeader.classList.remove('active');
+          otherContent.classList.remove('active');
+          clearAccordionValues(otherSource);
+        }
+      });
+      
+      // Toggle current accordion item
+      const isActive = header.classList.contains('active');
+      if (isActive) {
+        header.classList.remove('active');
+        content.classList.remove('active');
+        currentActiveSource = null;
+        clearAccordionValues(source);
+      } else {
+        header.classList.add('active');
+        content.classList.add('active');
+        currentActiveSource = source;
+      }
+      
+      updateAccordionStatus();
+    });
+  });
+  
+  // Set up event listeners for form inputs
+  setupAccordionInputListeners();
+}
+
+function clearAccordionValues(source) {
+  switch (source) {
+    case 'url':
+      faviconUrlInput.value = '';
+      break;
+    case 'bundled':
+      document.querySelectorAll('input[name="bundledIconSelection"]').forEach(radio => {
+        radio.checked = false;
+      });
+      break;
+    case 'upload':
+      iconUploadInput.value = '';
+      break;
+  }
+}
+
+function setupAccordionInputListeners() {
+  // URL input listener
+  faviconUrlInput.addEventListener('input', () => {
+    updateAccordionStatus();
+  });
+  
+  // File upload listener
+  iconUploadInput.addEventListener('change', () => {
+    updateAccordionStatus();
+  });
+  
+  // Note: Bundled icon listeners will be set up in populateBundledIcons function
+}
+
+function updateAccordionStatus() {
+  // Update URL status
+  const urlStatus = document.getElementById('urlStatus');
+  const urlHeader = document.getElementById('urlAccordionHeader');
+  if (faviconUrlInput.value.trim()) {
+    urlStatus.innerHTML = '<i class="material-icons" style="font-size: 16px; color: #4caf50;">check_circle</i>';
+    urlHeader.classList.add('completed');
+  } else {
+    urlStatus.innerHTML = '';
+    urlHeader.classList.remove('completed');
+  }
+  
+  // Update bundled status
+  const bundledStatus = document.getElementById('bundledStatus');
+  const bundledHeader = document.getElementById('bundledAccordionHeader');
+  const selectedBundled = document.querySelector('input[name="bundledIconSelection"]:checked');
+  if (selectedBundled) {
+    bundledStatus.innerHTML = '<i class="material-icons" style="font-size: 16px; color: #4caf50;">check_circle</i>';
+    bundledHeader.classList.add('completed');
+  } else {
+    bundledStatus.innerHTML = '';
+    bundledHeader.classList.remove('completed');
+  }
+  
+  // Update upload status
+  const uploadStatus = document.getElementById('uploadStatus');
+  const uploadHeader = document.getElementById('uploadAccordionHeader');
+  if (iconUploadInput.files && iconUploadInput.files.length > 0) {
+    uploadStatus.innerHTML = '<i class="material-icons" style="font-size: 16px; color: #4caf50;">check_circle</i>';
+    uploadHeader.classList.add('completed');
+  } else {
+    uploadStatus.innerHTML = '';
+    uploadHeader.classList.remove('completed');
+  }
+}
+
+function openAccordionSection(source) {
+  // Close all accordion sections first
+  document.querySelectorAll('.accordion-header').forEach(header => {
+    header.classList.remove('active');
+  });
+  document.querySelectorAll('.accordion-content').forEach(content => {
+    content.classList.remove('active');
+  });
+  
+  // Open the specified section
+  const targetHeader = document.querySelector(`[data-source="${source}"] .accordion-header`);
+  const targetContent = document.querySelector(`[data-source="${source}"] .accordion-content`);
+  
+  if (targetHeader && targetContent) {
+    targetHeader.classList.add('active');
+    targetContent.classList.add('active');
+    currentActiveSource = source;
+    updateAccordionStatus();
+  }
+}
+
 // Function to generate radio buttons for bundled icons
 function populateBundledIcons() {
   if (bundledIconFilenames.length === 0) {
@@ -169,6 +323,12 @@ function populateBundledIcons() {
     // Add click handler for the entire icon option
     iconOption.addEventListener('click', () => {
       radioInput.checked = true;
+      updateAccordionStatus();
+    });
+
+    // Add change listener to radio input
+    radioInput.addEventListener('change', () => {
+      updateAccordionStatus();
     });
 
     bundledIconsContainer.appendChild(iconOption);
@@ -255,18 +415,24 @@ function addSettingToList(settingKey, iconIdentifier) {
     iconUploadInput.value = '';
     document.querySelectorAll('input[name="bundledIconSelection"]').forEach(radio => radio.checked = false);
 
-    // Set the icon source based on the type
+    // Set the icon source based on the type and open appropriate accordion
     if (iconType === 'url') {
-      faviconUrlInput.value = iconIdentifier; 
+      faviconUrlInput.value = iconIdentifier;
+      // Open URL accordion
+      openAccordionSection('url');
     } else if (iconType === 'bundled') {
       const radioToSelect = document.querySelector(`input[name="bundledIconSelection"][value="${iconIdentifier}"]`);
       if (radioToSelect) {
         radioToSelect.checked = true;
       }
+      // Open bundled accordion
+      openAccordionSection('bundled');
     } else if (iconType === 'data'){
       // Can't pre-fill file input or easily show Data URL preview here.
       // User must select a new source if they want to change the icon.
       alert(getMessage('editingUploadedIcon'));
+      // Open upload accordion
+      openAccordionSection('upload');
     } else {
       // Bundled error or unknown - clear fields
     }
@@ -434,10 +600,7 @@ async function saveSetting() {
             settings[settingKey] = iconIdentifierToSave;
             chrome.storage.sync.set({ faviconSettings: settings }, () => {
                 console.log('Settings saved for key:', settingKey);
-                domainInput.value = '';
-                faviconUrlInput.value = '';
-                iconUploadInput.value = '';
-                if (selectedBundledIconRadio) selectedBundledIconRadio.checked = false;
+                clearForm(); // Use clearForm function to reset everything including accordion
                 loadSettings();
                 saveButton.disabled = false; 
                 saveButton.classList.remove('saving');
@@ -489,6 +652,19 @@ function clearForm() {
     if (selectedRadio) {
         selectedRadio.checked = false;
     }
+    
+    // Reset accordion state
+    document.querySelectorAll('.accordion-header').forEach(header => {
+        header.classList.remove('active', 'completed');
+    });
+    document.querySelectorAll('.accordion-content').forEach(content => {
+        content.classList.remove('active');
+    });
+    document.querySelectorAll('.accordion-status').forEach(status => {
+        status.innerHTML = '';
+    });
+    currentActiveSource = null;
+    
     domainInput.focus(); // Set focus back to the first input
 }
 // --- End Clear Form Function ---
@@ -500,4 +676,5 @@ document.addEventListener('DOMContentLoaded', () => {
     setupLocalizedText();
     populateBundledIcons();
     loadSettings();
+    initAccordion(); // Initialize accordion functionality
 }); 

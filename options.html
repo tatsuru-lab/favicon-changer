@@ -247,6 +247,93 @@
       justify-content: center;
     }
 
+    /* Accordion Styles */
+    .accordion {
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 16px 0;
+    }
+
+    .accordion-item {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    }
+
+    .accordion-item:last-child {
+      border-bottom: none;
+    }
+
+    .accordion-header {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      background: var(--surface);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .accordion-header:hover {
+      background: rgba(98, 0, 234, 0.04);
+    }
+
+    .accordion-header.active {
+      background: rgba(98, 0, 234, 0.08);
+      color: var(--primary-color);
+    }
+
+    .accordion-header.completed {
+      background: rgba(76, 175, 80, 0.08);
+      color: #4caf50;
+    }
+
+    .accordion-icon {
+      margin-right: 12px;
+      transition: transform 0.2s ease;
+      color: var(--text-secondary);
+    }
+
+    .accordion-header.active .accordion-icon {
+      transform: rotate(90deg);
+      color: var(--primary-color);
+    }
+
+    .accordion-header.completed .accordion-icon {
+      color: #4caf50;
+    }
+
+    .accordion-title {
+      flex-grow: 1;
+      font-weight: 500;
+      font-size: 1rem;
+    }
+
+    .accordion-status {
+      margin-left: 8px;
+      font-size: 14px;
+    }
+
+    .accordion-content {
+      padding: 0 16px;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      background: var(--surface);
+    }
+
+    .accordion-content.active {
+      max-height: 1000px;
+      padding: 16px;
+    }
+
+    .accordion-section {
+      margin-bottom: 16px;
+    }
+
+    .accordion-section:last-child {
+      margin-bottom: 0;
+    }
+
     /* Icon Options */
     .icon-grid {
       display: grid;
@@ -411,43 +498,75 @@
           <i class="material-icons" style="vertical-align: middle; margin-right: 8px;">image</i>
           Choose Icon Source
         </h3>
+        <p class="body2" id="chooseIconSourceHelp" style="margin-bottom: 16px; color: var(--text-secondary);">
+          <i class="material-icons" style="vertical-align: middle; margin-right: 4px; font-size: 16px;">info</i>
+          Select one of the following icon sources:
+        </p>
 
-        <!-- External URL -->
-        <div class="text-field">
-          <input type="text" id="faviconUrl" placeholder=" ">
-          <label for="faviconUrl" id="externalImageUrlLabel">1. External Image URL</label>
-        </div>
-        <p class="body2" id="externalImageUrlHelp">Enter a direct URL to an image file (png, jpg, ico, etc.). The image will be automatically resized to 16x16.</p>
+        <div class="accordion">
+          <!-- External URL -->
+          <div class="accordion-item" data-source="url">
+            <div class="accordion-header" id="urlAccordionHeader">
+              <i class="material-icons accordion-icon">chevron_right</i>
+              <i class="material-icons" style="margin-right: 8px; color: var(--primary-color);">link</i>
+              <span class="accordion-title" id="urlAccordionTitle">1. External Image URL</span>
+              <span class="accordion-status" id="urlStatus"></span>
+            </div>
+            <div class="accordion-content" id="urlAccordionContent">
+              <div class="accordion-section">
+                <div class="text-field">
+                  <input type="text" id="faviconUrl" placeholder=" ">
+                  <label for="faviconUrl" id="externalImageUrlLabel">Image URL</label>
+                </div>
+                <p class="body2" id="externalImageUrlHelp">Enter a direct URL to an image file (png, jpg, ico, etc.). The image will be automatically resized to 16x16.</p>
+              </div>
+            </div>
+          </div>
 
-        <!-- Bundled Icons -->
-        <label class="subtitle1" id="selectBundledIconLabel">
-          <i class="material-icons" style="vertical-align: middle; margin-right: 8px;">folder</i>
-          2. Select Bundled Icon
-        </label>
-        <div id="bundledIconsContainer" class="icon-grid">
-          <!-- Radio buttons will be generated here -->
-          <p class="body2" id="noBundledIconsText">
-            <i class="material-icons" style="vertical-align: middle; margin-right: 4px;">info</i>
-            No bundled icons found or defined in options.js.
-          </p>
-        </div>
+          <!-- Bundled Icons -->
+          <div class="accordion-item" data-source="bundled">
+            <div class="accordion-header" id="bundledAccordionHeader">
+              <i class="material-icons accordion-icon">chevron_right</i>
+              <i class="material-icons" style="margin-right: 8px; color: var(--primary-color);">folder</i>
+              <span class="accordion-title" id="bundledAccordionTitle">2. Select Bundled Icon</span>
+              <span class="accordion-status" id="bundledStatus"></span>
+            </div>
+            <div class="accordion-content" id="bundledAccordionContent">
+              <div class="accordion-section">
+                <p class="body2" style="margin-bottom: 12px;">Choose from pre-installed icons:</p>
+                <div id="bundledIconsContainer" class="icon-grid">
+                  <!-- Radio buttons will be generated here -->
+                  <p class="body2" id="noBundledIconsText">
+                    <i class="material-icons" style="vertical-align: middle; margin-right: 4px;">info</i>
+                    No bundled icons found or defined in options.js.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-        <!-- File Upload -->
-        <label class="subtitle1" id="uploadNewIconLabel">
-          <i class="material-icons" style="vertical-align: middle; margin-right: 8px;">cloud_upload</i>
-          3. Upload New Icon
-        </label>
-        <div class="file-upload">
-          <input type="file" id="iconUpload" accept="image/png, image/jpeg, image/x-icon, image/svg+xml">
-          <div class="file-upload-label">
-            <i class="material-icons">add_photo_alternate</i>
-            <span>Choose file or drag here</span>
+          <!-- File Upload -->
+          <div class="accordion-item" data-source="upload">
+            <div class="accordion-header" id="uploadAccordionHeader">
+              <i class="material-icons accordion-icon">chevron_right</i>
+              <i class="material-icons" style="margin-right: 8px; color: var(--primary-color);">cloud_upload</i>
+              <span class="accordion-title" id="uploadAccordionTitle">3. Upload New Icon</span>
+              <span class="accordion-status" id="uploadStatus"></span>
+            </div>
+            <div class="accordion-content" id="uploadAccordionContent">
+              <div class="accordion-section">
+                <div class="file-upload">
+                  <input type="file" id="iconUpload" accept="image/png, image/jpeg, image/x-icon, image/svg+xml">
+                  <div class="file-upload-label">
+                    <i class="material-icons">add_photo_alternate</i>
+                    <span>Choose file or drag here</span>
+                  </div>
+                </div>
+                <p class="body2" style="margin-top: 8px;">Upload an image file (PNG, JPG, ICO, SVG). It will be automatically resized to 16x16.</p>
+              </div>
+            </div>
           </div>
         </div>
-        <p class="body2" id="oneIconSourceNote">
-          <i class="material-icons" style="vertical-align: middle; margin-right: 4px; font-size: 16px;">info</i>
-          Note: Only one icon source (URL, Bundled, or Upload) will be used per setting.
-        </p>
 
         <div class="button-group">
           <button class="btn btn-primary btn-icon" id="save">

@@ -1,6 +1,6 @@
 {
   "extensionName": {
-    "message": "Favicon Changer",
+    "message": "Favicon Control",
     "description": "Name of the extension"
   },
   "extensionDescription": {
@@ -8,7 +8,7 @@
     "description": "Description of the extension"
   },
   "optionsTitle": {
-    "message": "Favicon Changer オプション",
+    "message": "Favicon Control オプション",
     "description": "Title of the options page"
   },
   "addUpdateSetting": {
@@ -176,7 +176,7 @@
     "description": "Error message when sending message to tab fails"
   },
   "contentScriptLoaded": {
-    "message": "Favicon Changerコンテンツスクリプトが読み込まれ、メッセージを待機中です。",
+    "message": "Favicon Controlコンテンツスクリプトが読み込まれ、メッセージを待機中です。",
     "description": "Log message when content script is loaded"
   },
   "usingDataUrl": {
@@ -196,7 +196,7 @@
     "description": "Error message when getting bundled icon URL fails"
   },
   "documentHeadNotFound": {
-    "message": "Favicon Changer: document.headがまだ見つかりません。ファビコン変更を延期します。",
+    "message": "Favicon Control: document.headがまだ見つかりません。ファビコン変更を延期します。",
     "description": "Warning message when document head is not found"
   },
   "faviconChanged": {

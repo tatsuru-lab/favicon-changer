@@ -1,6 +1,6 @@
 {
   "extensionName": {
-    "message": "Favicon Changer",
+    "message": "Favicon Control",
     "description": "Name of the extension"
   },
   "extensionDescription": {
@@ -8,7 +8,7 @@
     "description": "Description of the extension"
   },
   "optionsTitle": {
-    "message": "Favicon Changer Options",
+    "message": "Favicon Control Options",
     "description": "Title of the options page"
   },
   "addUpdateSetting": {
@@ -176,7 +176,7 @@
     "description": "Error message when sending message to tab fails"
   },
   "contentScriptLoaded": {
-    "message": "Favicon Changer content script loaded and listening for messages.",
+    "message": "Favicon Control content script loaded and listening for messages.",
     "description": "Log message when content script is loaded"
   },
   "usingDataUrl": {
@@ -196,7 +196,7 @@
     "description": "Error message when getting bundled icon URL fails"
   },
   "documentHeadNotFound": {
-    "message": "Favicon Changer: document.head not found yet. Favicon change deferred.",
+    "message": "Favicon Control: document.head not found yet. Favicon change deferred.",
     "description": "Warning message when document head is not found"
   },
   "faviconChanged": {

@@ -1,4 +1,4 @@
-# favicon-changer
+# favicon-control
 Change the favicon of any page on any site so that it can be easily recognized just by browsing tabs.
 
 ## How to Use
@@ -14,7 +14,7 @@ Change the favicon of any page on any site so that it can be easily recognized j
 ### Changing a Favicon
 
 1.  Navigate to the webpage whose favicon you want to change.
-2.  Click the Favicon Changer extension icon in your browser toolbar.
+2.  Click the Favicon Control extension icon in your browser toolbar.
 3.  In the popup, either:
     *   Click on an emoji to use it as the favicon.
     *   Click the "Upload Image" button and select an image file (e.g., PNG, JPG, ICO) from your computer.

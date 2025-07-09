@@ -210,5 +210,9 @@
   "faviconIdentifierMissing": {
     "message": "リクエストにファビコン識別子（URL、ファイル名、またはデータURL）がありません。",
     "description": "Error message when favicon identifier is missing"
+  },
+  "chooseFileOrDrag": {
+    "message": "ファイルを選択するかここにドラッグ",
+    "description": "Text for file upload area"
   }
 } 

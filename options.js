@@ -24,24 +24,99 @@ function setupLocalizedText() {
   // Update HTML page title
   document.title = getMessage('optionsTitle');
   
-  // Update static text elements
-  document.getElementById('mainTitle').textContent = getMessage('optionsTitle');
-  document.getElementById('addUpdateTitle').textContent = getMessage('addUpdateSetting');
-  document.getElementById('clickToEditText').textContent = getMessage('clickToEdit');
-  document.getElementById('matchingRuleLabel').textContent = getMessage('matchingRule');
-  document.getElementById('domain').placeholder = getMessage('matchingRulePlaceholder');
-  document.getElementById('matchingRuleHelp').textContent = getMessage('matchingRuleHelp');
-  document.getElementById('chooseIconSourceTitle').textContent = getMessage('chooseIconSource');
-  document.getElementById('externalImageUrlLabel').textContent = getMessage('externalImageUrl');
-  document.getElementById('faviconUrl').placeholder = getMessage('externalImageUrlPlaceholder');
-  document.getElementById('externalImageUrlHelp').textContent = getMessage('externalImageUrlHelp');
-  document.getElementById('selectBundledIconLabel').textContent = getMessage('selectBundledIcon');
-  document.getElementById('noBundledIconsText').textContent = getMessage('noBundledIcons');
-  document.getElementById('uploadNewIconLabel').textContent = getMessage('uploadNewIcon');
-  document.getElementById('oneIconSourceNote').textContent = getMessage('oneIconSourceNote');
-  document.getElementById('save').textContent = getMessage('saveSetting');
-  document.getElementById('clearForm').textContent = getMessage('clearForm');
-  document.getElementById('currentSettingsTitle').textContent = getMessage('currentSettings');
+  // Update main elements text
+  const mainTitle = document.querySelector('#mainTitle');
+  if (mainTitle) {
+    mainTitle.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 12px; color: var(--primary-color);">palette</i>${getMessage('optionsTitle')}`;
+  }
+  
+  const addUpdateTitle = document.querySelector('#addUpdateTitle');
+  if (addUpdateTitle) {
+    addUpdateTitle.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 8px;">add_circle</i>${getMessage('addUpdateSetting')}`;
+  }
+  
+  const clickToEditText = document.querySelector('#clickToEditText');
+  if (clickToEditText) {
+    clickToEditText.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 4px; font-size: 16px;">info</i>${getMessage('clickToEdit')}`;
+  }
+  
+  const matchingRuleLabel = document.querySelector('#matchingRuleLabel');
+  if (matchingRuleLabel) {
+    matchingRuleLabel.textContent = getMessage('matchingRule');
+  }
+  
+  const matchingRuleHelp = document.querySelector('#matchingRuleHelp');
+  if (matchingRuleHelp) {
+    matchingRuleHelp.textContent = getMessage('matchingRuleHelp');
+  }
+  
+  const chooseIconSourceTitle = document.querySelector('#chooseIconSourceTitle');
+  if (chooseIconSourceTitle) {
+    chooseIconSourceTitle.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 8px;">image</i>${getMessage('chooseIconSource')}`;
+  }
+  
+  const externalImageUrlLabel = document.querySelector('#externalImageUrlLabel');
+  if (externalImageUrlLabel) {
+    externalImageUrlLabel.textContent = getMessage('externalImageUrl');
+  }
+  
+  const externalImageUrlHelp = document.querySelector('#externalImageUrlHelp');
+  if (externalImageUrlHelp) {
+    externalImageUrlHelp.textContent = getMessage('externalImageUrlHelp');
+  }
+  
+  const selectBundledIconLabel = document.querySelector('#selectBundledIconLabel');
+  if (selectBundledIconLabel) {
+    selectBundledIconLabel.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 8px;">folder</i>${getMessage('selectBundledIcon')}`;
+  }
+  
+  const uploadNewIconLabel = document.querySelector('#uploadNewIconLabel');
+  if (uploadNewIconLabel) {
+    uploadNewIconLabel.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 8px;">cloud_upload</i>${getMessage('uploadNewIcon')}`;
+  }
+  
+  const oneIconSourceNote = document.querySelector('#oneIconSourceNote');
+  if (oneIconSourceNote) {
+    oneIconSourceNote.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 4px; font-size: 16px;">info</i>${getMessage('oneIconSourceNote')}`;
+  }
+  
+  const saveButton = document.querySelector('#save span');
+  if (saveButton) {
+    saveButton.textContent = getMessage('saveSetting');
+  }
+  
+  const clearFormButton = document.querySelector('#clearForm span');
+  if (clearFormButton) {
+    clearFormButton.textContent = getMessage('clearForm');
+  }
+  
+  const currentSettingsTitle = document.querySelector('#currentSettingsTitle');
+  if (currentSettingsTitle) {
+    currentSettingsTitle.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 8px;">list</i>${getMessage('currentSettings')}`;
+  }
+  
+  // Update file upload text
+  const fileUploadLabel = document.querySelector('.file-upload-label span');
+  if (fileUploadLabel) {
+    fileUploadLabel.textContent = getMessage('chooseFileOrDrag');
+  }
+  
+  // Update placeholders
+  const domainInput = document.querySelector('#domain');
+  if (domainInput) {
+    domainInput.placeholder = getMessage('matchingRulePlaceholder');
+  }
+  
+  const faviconUrlInput = document.querySelector('#faviconUrl');
+  if (faviconUrlInput) {
+    faviconUrlInput.placeholder = getMessage('externalImageUrlPlaceholder');
+  }
+  
+  // Update no bundled icons text if container exists
+  const noBundledIconsText = document.querySelector('#noBundledIconsText');
+  if (noBundledIconsText) {
+    noBundledIconsText.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 4px;">info</i>${getMessage('noBundledIcons')}`;
+  }
 }
 
 const domainInput = document.getElementById('domain');
@@ -55,7 +130,7 @@ const clearFormButton = document.getElementById('clearForm'); // Renamed variabl
 // Function to generate radio buttons for bundled icons
 function populateBundledIcons() {
   if (bundledIconFilenames.length === 0) {
-    bundledIconsContainer.innerHTML = `<p><i>${getMessage('noBundledIconsDefined')}</i></p>`;
+    bundledIconsContainer.innerHTML = `<p class="body2"><i class="material-icons" style="vertical-align: middle; margin-right: 4px;">info</i>${getMessage('noBundledIconsDefined')}</p>`;
     return;
   }
 
@@ -64,12 +139,13 @@ function populateBundledIcons() {
     const radioId = `bundledIcon_${index}`;
     const iconUrl = chrome.runtime.getURL(`images/${filename}`);
 
-    const label = document.createElement('label');
-    label.setAttribute('for', radioId);
+    // Create material design icon option
+    const iconOption = document.createElement('div');
+    iconOption.className = 'icon-option';
 
     const radioInput = document.createElement('input');
     radioInput.type = 'radio';
-    radioInput.name = 'bundledIconSelection'; // Group radio buttons
+    radioInput.name = 'bundledIconSelection';
     radioInput.id = radioId;
     radioInput.value = filename;
 
@@ -78,14 +154,24 @@ function populateBundledIcons() {
     img.alt = filename;
     img.onerror = () => { 
         console.warn(getMessage('couldNotLoadBundledIcon', [filename]));
-        img.style.display = 'none'; // Hide broken image preview
+        iconOption.style.display = 'none'; // Hide broken icon option
     };
 
-    label.appendChild(radioInput);
-    label.appendChild(img);
-    label.appendChild(document.createTextNode(` ${filename}`));
+    const label = document.createElement('label');
+    label.setAttribute('for', radioId);
+    label.textContent = filename;
+    label.style.cursor = 'pointer';
 
-    bundledIconsContainer.appendChild(label);
+    iconOption.appendChild(radioInput);
+    iconOption.appendChild(img);
+    iconOption.appendChild(label);
+
+    // Add click handler for the entire icon option
+    iconOption.addEventListener('click', () => {
+      radioInput.checked = true;
+    });
+
+    bundledIconsContainer.appendChild(iconOption);
   });
 }
 
@@ -102,13 +188,14 @@ function loadSettings() {
 
 // Add a setting to the displayed list (adjust display logic)
 function addSettingToList(settingKey, iconIdentifier) {
-  const div = document.createElement('div');
+  const listItem = document.createElement('div');
+  listItem.className = 'list-item';
+  
   let valueDisplay = '';
   const imgPrev = document.createElement('img');
-  imgPrev.style.width = '16px';
-  imgPrev.style.height = '16px';
-  imgPrev.style.marginRight = '8px';
-  imgPrev.style.verticalAlign = 'middle';
+  imgPrev.style.width = '24px';
+  imgPrev.style.height = '24px';
+  imgPrev.style.borderRadius = '4px';
   let ruleType = settingKey.includes('/') ? "Prefix" : "Keyword";
   let iconType = 'unknown'; // To track icon source for editing
 
@@ -136,20 +223,29 @@ function addSettingToList(settingKey, iconIdentifier) {
     }
   }
   
-  const textSpan = document.createElement('span');
-  const localizedRuleType = ruleType === "Prefix" ? getMessage('prefix') : getMessage('keyword');
-  textSpan.textContent = `[${localizedRuleType}] ${settingKey}: ${valueDisplay}`;
-  if (ruleType === "Keyword") {
-    textSpan.style.fontStyle = 'italic';
-  }
+  // Create icon container
+  const iconContainer = document.createElement('div');
+  iconContainer.className = 'list-item-icon';
+  iconContainer.appendChild(imgPrev);
   
-  const contentWrapper = document.createElement('div');
-  contentWrapper.className = 'setting-item-content'; // Added class for styling/event
-  contentWrapper.appendChild(imgPrev);
-  contentWrapper.appendChild(textSpan);
+  // Create content container
+  const contentContainer = document.createElement('div');
+  contentContainer.className = 'list-item-content';
+  
+  const primaryText = document.createElement('div');
+  primaryText.className = 'list-item-primary';
+  const localizedRuleType = ruleType === "Prefix" ? getMessage('prefix') : getMessage('keyword');
+  primaryText.textContent = `${settingKey}`;
+  
+  const secondaryText = document.createElement('div');
+  secondaryText.className = 'list-item-secondary';
+  secondaryText.innerHTML = `<i class="material-icons" style="font-size: 14px; vertical-align: middle; margin-right: 4px;">${ruleType === 'Prefix' ? 'link' : 'search'}</i>${localizedRuleType} • ${valueDisplay}`;
+  
+  contentContainer.appendChild(primaryText);
+  contentContainer.appendChild(secondaryText);
 
   // --- Add Click Listener for Editing ---
-  contentWrapper.addEventListener('click', () => {
+  contentContainer.addEventListener('click', () => {
     console.log(`Editing setting: ${settingKey}`);
     // Populate the rule input
     domainInput.value = settingKey;
@@ -182,8 +278,11 @@ function addSettingToList(settingKey, iconIdentifier) {
   // --- End Click Listener ---
 
   const deleteButton = document.createElement('button');
-  deleteButton.textContent = getMessage('delete');
-  deleteButton.addEventListener('click', () => {
+  deleteButton.className = 'btn btn-secondary';
+  deleteButton.innerHTML = `<i class="material-icons" style="font-size: 18px;">delete</i>`;
+  deleteButton.title = getMessage('delete');
+  deleteButton.addEventListener('click', (e) => {
+    e.stopPropagation(); // Prevent triggering the edit click
     // Optionally clear form if deleting the item being edited
     if (domainInput.value === settingKey) {
       domainInput.value = '';
@@ -194,9 +293,10 @@ function addSettingToList(settingKey, iconIdentifier) {
     deleteSetting(settingKey);
   });
 
-  div.appendChild(contentWrapper);
-  div.appendChild(deleteButton);
-  settingsListDiv.appendChild(div);
+  listItem.appendChild(iconContainer);
+  listItem.appendChild(contentContainer);
+  listItem.appendChild(deleteButton);
+  settingsListDiv.appendChild(listItem);
 }
 
 // --- Helper function for resizing image using Canvas ---
@@ -231,7 +331,8 @@ async function resizeImageToDataUrl(imageUrl, targetWidth, targetHeight) {
 // Save a new or updated setting
 async function saveSetting() {
     saveButton.disabled = true;
-    saveButton.textContent = getMessage('saving');
+    saveButton.classList.add('saving');
+    saveButton.querySelector('span').textContent = getMessage('saving');
 
     let ruleInput = domainInput.value.trim();
     const faviconUrlInputVal = faviconUrlInput.value.trim();
@@ -242,7 +343,9 @@ async function saveSetting() {
     // --- Input Validation (Rule and Icon Source Count) ---
     if (!ruleInput) {
         alert(getMessage('enterMatchingRule'));
-        saveButton.disabled = false; saveButton.textContent = getMessage('saveSetting');
+        saveButton.disabled = false; 
+        saveButton.classList.remove('saving');
+        saveButton.querySelector('span').textContent = getMessage('saveSetting');
         return;
     }
     // Removed Regex Validation
@@ -250,11 +353,15 @@ async function saveSetting() {
     const sourcesProvided = [faviconUrlInputVal, file, bundledIconValue].filter(Boolean).length;
     if (sourcesProvided === 0) {
         alert(getMessage('provideIconSource'));
-        saveButton.disabled = false; saveButton.textContent = getMessage('saveSetting');
+        saveButton.disabled = false; 
+        saveButton.classList.remove('saving');
+        saveButton.querySelector('span').textContent = getMessage('saveSetting');
         return;
     } else if (sourcesProvided > 1) {
         alert(getMessage('oneIconSourceOnly'));
-        saveButton.disabled = false; saveButton.textContent = getMessage('saveSetting');
+        saveButton.disabled = false; 
+        saveButton.classList.remove('saving');
+        saveButton.querySelector('span').textContent = getMessage('saveSetting');
         return;
     }
     // --- End Input Validation ---
@@ -279,7 +386,9 @@ async function saveSetting() {
             console.log(`Generated prefix key: ${settingKey}`);
         } catch (e) {
             alert(getMessage('invalidUrlPrefix', [ruleInput]));
-            saveButton.disabled = false; saveButton.textContent = getMessage('saveSetting');
+            saveButton.disabled = false; 
+            saveButton.classList.remove('saving');
+            saveButton.querySelector('span').textContent = getMessage('saveSetting');
             return;
         }
     } else {
@@ -330,14 +439,18 @@ async function saveSetting() {
                 iconUploadInput.value = '';
                 if (selectedBundledIconRadio) selectedBundledIconRadio.checked = false;
                 loadSettings();
-                saveButton.disabled = false; saveButton.textContent = getMessage('saveSetting');
+                saveButton.disabled = false; 
+                saveButton.classList.remove('saving');
+                saveButton.querySelector('span').textContent = getMessage('saveSetting');
             });
         });
 
     } catch (error) {
         console.error("Error processing icon or saving settings:", error);
         alert(getMessage('errorPrefix', [error.message]));
-        saveButton.disabled = false; saveButton.textContent = getMessage('saveSetting');
+        saveButton.disabled = false; 
+        saveButton.classList.remove('saving');
+        saveButton.querySelector('span').textContent = getMessage('saveSetting');
     }
 }
 

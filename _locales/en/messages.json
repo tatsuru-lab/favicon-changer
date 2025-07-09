@@ -210,5 +210,9 @@
   "faviconIdentifierMissing": {
     "message": "Favicon identifier (URL, filename, or Data URL) missing in request.",
     "description": "Error message when favicon identifier is missing"
+  },
+  "chooseFileOrDrag": {
+    "message": "Choose file or drag here",
+    "description": "Text for file upload area"
   }
 } 

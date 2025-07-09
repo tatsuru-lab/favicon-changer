@@ -2,84 +2,458 @@
 <html>
 <head>
   <title>__MSG_optionsTitle__</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Google Fonts - Roboto -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
   <style>
-    body { font-family: sans-serif; padding: 10px; max-width: 500px; }
-    h1, h2 { border-bottom: 1px solid #eee; padding-bottom: 5px; }
-    label { display: block; margin-bottom: 5px; font-weight: bold; }
-    input[type="text"] { width: 95%; margin-bottom: 15px; padding: 5px; }
-    input[type="file"] { margin-bottom: 15px; }
-    button { margin-top: 15px; padding: 8px 15px; }
-    #settingsList div { 
-        border-bottom: 1px solid #ccc; 
-        padding: 8px 5px; /* Adjusted padding */
-        display: flex; 
-        justify-content: space-between; 
-        align-items: center; 
+    /* Material Design CSS will be added here */
+    :root {
+      --primary-color: #6200ea;
+      --primary-variant: #3700b3;
+      --secondary-color: #03dac6;
+      --background: #fafafa;
+      --surface: #ffffff;
+      --error: #b00020;
+      --on-primary: #ffffff;
+      --on-secondary: #000000;
+      --on-background: #000000;
+      --on-surface: #000000;
+      --on-error: #ffffff;
+      --text-primary: rgba(0, 0, 0, 0.87);
+      --text-secondary: rgba(0, 0, 0, 0.6);
+      --text-disabled: rgba(0, 0, 0, 0.38);
     }
-    #settingsList .setting-item-content {
-        cursor: pointer; /* Indicate clickable for editing */
-        flex-grow: 1; /* Allow content to take available space */
-        margin-right: 10px; /* Space before delete button */
-        overflow: hidden; /* Prevent long text overflowing */
-        text-overflow: ellipsis; /* Show ellipsis for overflow */
-        white-space: nowrap; /* Keep content on one line */
+
+    * {
+      box-sizing: border-box;
     }
-     #settingsList .setting-item-content:hover {
-        background-color: #f0f0f0; /* Highlight on hover */
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 24px;
+      background-color: var(--background);
+      color: var(--text-primary);
+      line-height: 1.5;
     }
-    #settingsList button { margin-left: 10px; flex-shrink: 0; } /* Ensure button doesn't shrink */
-    .form-buttons { 
-        margin-top: 20px; 
-        display: flex; /* Arrange buttons horizontally */
-        justify-content: flex-start; /* Align buttons to the start */
-        gap: 10px; /* Add space between buttons */
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
     }
-    .form-buttons button { margin-top: 0; } /* Reset top margin for buttons inside flex container */
-    .setting-group { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
-    .setting-group h3 { margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-    #bundledIconsContainer label { display: inline-block; margin-right: 15px; margin-bottom: 10px; font-weight: normal; }
-    #bundledIconsContainer img { vertical-align: middle; margin-right: 5px; width: 16px; height: 16px; }
+
+    /* Material Typography */
+    .headline4 {
+      font-size: 2.125rem;
+      font-weight: 400;
+      line-height: 2.5rem;
+      letter-spacing: 0.00735em;
+      margin: 0 0 32px 0;
+    }
+
+    .headline6 {
+      font-size: 1.25rem;
+      font-weight: 500;
+      line-height: 1.75rem;
+      letter-spacing: 0.0125em;
+      margin: 0 0 16px 0;
+    }
+
+    .subtitle1 {
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.75rem;
+      letter-spacing: 0.00937em;
+    }
+
+    .body2 {
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 1.25rem;
+      letter-spacing: 0.01786em;
+      color: var(--text-secondary);
+    }
+
+    /* Material Cards */
+    .card {
+      background: var(--surface);
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 24px;
+      overflow: hidden;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-content {
+      padding: 24px;
+    }
+
+    /* Material Text Fields */
+    .text-field {
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    .text-field input {
+      width: 100%;
+      padding: 16px 12px 8px 12px;
+      border: 1px solid rgba(0, 0, 0, 0.38);
+      border-radius: 4px;
+      background: transparent;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: border-color 0.2s ease;
+    }
+
+    .text-field input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      border-width: 2px;
+      padding: 15px 11px 7px 11px;
+    }
+
+    .text-field input:focus + label,
+    .text-field input:not(:placeholder-shown) + label {
+      transform: translateY(-20px) scale(0.75);
+      color: var(--primary-color);
+    }
+
+    .text-field label {
+      position: absolute;
+      left: 12px;
+      top: 16px;
+      color: var(--text-secondary);
+      font-size: 1rem;
+      transition: all 0.2s ease;
+      pointer-events: none;
+      background: var(--surface);
+      padding: 0 4px;
+    }
+
+    /* Material Buttons */
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08929em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary {
+      background: var(--primary-color);
+      color: var(--on-primary);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-variant);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary-color);
+      border: 1px solid var(--primary-color);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(98, 0, 234, 0.04);
+    }
+
+    .btn-icon {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn:disabled {
+      background: var(--text-disabled);
+      color: rgba(255, 255, 255, 0.6);
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    /* Button Container */
+    .button-group {
+      display: flex;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    /* Material List */
+    .list {
+      background: var(--surface);
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .list-item {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .list-item:last-child {
+      border-bottom: none;
+    }
+
+    .list-item:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+
+    .list-item-content {
+      flex-grow: 1;
+      margin-right: 16px;
+    }
+
+    .list-item-primary {
+      font-size: 1rem;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .list-item-secondary {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    .list-item-icon {
+      margin-right: 16px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Icon Options */
+    .icon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 16px;
+      margin: 16px 0;
+    }
+
+    .icon-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+      border: 2px solid transparent;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .icon-option:hover {
+      border-color: var(--primary-color);
+      background: rgba(98, 0, 234, 0.04);
+    }
+
+    .icon-option input[type="radio"] {
+      margin: 0 0 8px 0;
+    }
+
+    .icon-option img {
+      width: 32px;
+      height: 32px;
+      margin-bottom: 8px;
+    }
+
+    .icon-option label {
+      font-size: 0.75rem;
+      text-align: center;
+      font-weight: normal;
+    }
+
+    /* File Upload */
+    .file-upload {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .file-upload input[type="file"] {
+      position: absolute;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .file-upload-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      border: 2px dashed rgba(0, 0, 0, 0.38);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--text-secondary);
+    }
+
+    .file-upload-label:hover {
+      border-color: var(--primary-color);
+      color: var(--primary-color);
+    }
+
+    .file-upload-label .material-icons {
+      margin-right: 8px;
+      font-size: 24px;
+    }
+
+    /* Help Text */
+    .help-text {
+      background: rgba(98, 0, 234, 0.04);
+      border-left: 4px solid var(--primary-color);
+      padding: 16px;
+      margin: 16px 0;
+      border-radius: 0 4px 4px 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      body {
+        padding: 16px;
+      }
+      
+      .button-group {
+        flex-direction: column;
+      }
+      
+      .icon-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      }
+    }
+
+    /* Animation for save button */
+    @keyframes save-success {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .btn-primary.saving {
+      animation: save-success 0.3s ease;
+    }
   </style>
 </head>
 <body>
-  <h1 id="mainTitle">Favicon Changer Options</h1>
+  <div class="container">
+    <h1 class="headline4" id="mainTitle">
+      <i class="material-icons" style="vertical-align: middle; margin-right: 12px; color: var(--primary-color);">palette</i>
+      Favicon Changer Options
+    </h1>
 
-  <div class="setting-group">
-    <h2 id="addUpdateTitle">Add/Update Setting</h2>
-    <small><i id="clickToEditText">Click on an item in 'Current Settings' below to edit it.</i></small>
-    <label for="domain" id="matchingRuleLabel">Matching Rule (URL Prefix or Keyword):</label>
-    <input type="text" id="domain" placeholder="example.com/path  OR  inbox">
-    <small id="matchingRuleHelp">
-      Enter a URL prefix (e.g., `example.com`, `sub.example.com/docs`) for prefix matching (applies to subdomains/subpaths).
-      Or, enter a simple keyword (e.g., `jira`, `report`) to match anywhere in the `hostname/pathname`.
-      Prefix rules take precedence over keyword rules.
-    </small>
+    <div class="card">
+      <div class="card-content">
+        <h2 class="headline6" id="addUpdateTitle">
+          <i class="material-icons" style="vertical-align: middle; margin-right: 8px;">add_circle</i>
+          Add/Update Setting
+        </h2>
+        
+        <p class="body2" id="clickToEditText">
+          <i class="material-icons" style="vertical-align: middle; margin-right: 4px; font-size: 16px;">info</i>
+          Click on an item in 'Current Settings' below to edit it.
+        </p>
 
-    <h3 style="margin-top: 15px;" id="chooseIconSourceTitle">Choose Icon Source:</h3>
+        <div class="text-field">
+          <input type="text" id="domain" placeholder=" ">
+          <label for="domain" id="matchingRuleLabel">Matching Rule (URL Prefix or Keyword)</label>
+        </div>
 
-    <label for="faviconUrl" id="externalImageUrlLabel">1. External Image URL:</label>
-    <input type="text" id="faviconUrl" placeholder="https://example.com/path/to/image.png">
-    <small id="externalImageUrlHelp">Enter a direct URL to an image file (png, jpg, ico, etc.). The image will be automatically resized to 16x16.</small>
+        <div class="help-text">
+          <p class="body2" id="matchingRuleHelp">
+            Enter a URL prefix (e.g., `example.com`, `sub.example.com/docs`) for prefix matching (applies to subdomains/subpaths).
+            Or, enter a simple keyword (e.g., `jira`, `report`) to match anywhere in the `hostname/pathname`.
+            Prefix rules take precedence over keyword rules.
+          </p>
+        </div>
 
-    <label style="margin-top: 15px;" id="selectBundledIconLabel">2. Select Bundled Icon (from 'images/' folder):</label>
-    <div id="bundledIconsContainer">
-      <!-- Radio buttons will be generated here -->
-      <p><i id="noBundledIconsText">No bundled icons found or defined in options.js.</i></p>
+        <h3 class="headline6" id="chooseIconSourceTitle">
+          <i class="material-icons" style="vertical-align: middle; margin-right: 8px;">image</i>
+          Choose Icon Source
+        </h3>
+
+        <!-- External URL -->
+        <div class="text-field">
+          <input type="text" id="faviconUrl" placeholder=" ">
+          <label for="faviconUrl" id="externalImageUrlLabel">1. External Image URL</label>
+        </div>
+        <p class="body2" id="externalImageUrlHelp">Enter a direct URL to an image file (png, jpg, ico, etc.). The image will be automatically resized to 16x16.</p>
+
+        <!-- Bundled Icons -->
+        <label class="subtitle1" id="selectBundledIconLabel">
+          <i class="material-icons" style="vertical-align: middle; margin-right: 8px;">folder</i>
+          2. Select Bundled Icon
+        </label>
+        <div id="bundledIconsContainer" class="icon-grid">
+          <!-- Radio buttons will be generated here -->
+          <p class="body2" id="noBundledIconsText">
+            <i class="material-icons" style="vertical-align: middle; margin-right: 4px;">info</i>
+            No bundled icons found or defined in options.js.
+          </p>
+        </div>
+
+        <!-- File Upload -->
+        <label class="subtitle1" id="uploadNewIconLabel">
+          <i class="material-icons" style="vertical-align: middle; margin-right: 8px;">cloud_upload</i>
+          3. Upload New Icon
+        </label>
+        <div class="file-upload">
+          <input type="file" id="iconUpload" accept="image/png, image/jpeg, image/x-icon, image/svg+xml">
+          <div class="file-upload-label">
+            <i class="material-icons">add_photo_alternate</i>
+            <span>Choose file or drag here</span>
+          </div>
+        </div>
+        <p class="body2" id="oneIconSourceNote">
+          <i class="material-icons" style="vertical-align: middle; margin-right: 4px; font-size: 16px;">info</i>
+          Note: Only one icon source (URL, Bundled, or Upload) will be used per setting.
+        </p>
+
+        <div class="button-group">
+          <button class="btn btn-primary btn-icon" id="save">
+            <i class="material-icons">save</i>
+            <span>Save Setting</span>
+          </button>
+          <button class="btn btn-secondary btn-icon" id="clearForm">
+            <i class="material-icons">clear</i>
+            <span>Clear Form</span>
+          </button>
+        </div>
+      </div>
     </div>
 
-    <label style="margin-top: 15px;" for="iconUpload" id="uploadNewIconLabel">3. Upload New Icon:</label>
-    <input type="file" id="iconUpload" accept="image/png, image/jpeg, image/x-icon, image/svg+xml">
-    <small id="oneIconSourceNote">Note: Only one icon source (URL, Bundled, or Upload) will be used per setting.</small>
-
-    <div class="form-buttons">
-        <button id="save">Save Setting</button>
-        <button id="clearForm">Clear Form</button> 
+    <h2 class="headline6" id="currentSettingsTitle">
+      <i class="material-icons" style="vertical-align: middle; margin-right: 8px;">list</i>
+      Current Settings
+    </h2>
+    <div id="settingsList" class="list">
+      <!-- Settings will be loaded here -->
     </div>
-  </div>
-
-  <h2 id="currentSettingsTitle">Current Settings</h2>
-  <div id="settingsList">
-    <!-- Settings will be loaded here -->
   </div>
 
   <script src="options.js"></script>

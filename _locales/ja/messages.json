@@ -214,5 +214,9 @@
   "chooseFileOrDrag": {
     "message": "ファイルを選択するかここにドラッグ",
     "description": "Text for file upload area"
+  },
+  "selectOneIconSource": {
+    "message": "以下のアイコンソースから一つを選択してください:",
+    "description": "Help text instructing user to select one icon source"
   }
 } 

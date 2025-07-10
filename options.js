@@ -57,7 +57,7 @@ function setupLocalizedText() {
   
   const chooseIconSourceHelp = document.querySelector('#chooseIconSourceHelp');
   if (chooseIconSourceHelp) {
-    chooseIconSourceHelp.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 4px; font-size: 16px;">info</i>Select one of the following icon sources:`;
+    chooseIconSourceHelp.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 4px; font-size: 16px;">info</i>${getMessage('selectOneIconSource')}`;
   }
   
   // Update accordion titles

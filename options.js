@@ -199,101 +199,101 @@ async function setupLocalizedText() {
   
   const matchingRuleLabel = document.querySelector('#matchingRuleLabel');
   if (matchingRuleLabel) {
-    matchingRuleLabel.textContent = getMessage('matchingRule');
+    matchingRuleLabel.textContent = await getMessageAsync('matchingRule');
   }
   
   const matchingRuleHelp = document.querySelector('#matchingRuleHelp');
   if (matchingRuleHelp) {
-    matchingRuleHelp.textContent = getMessage('matchingRuleHelp');
+    matchingRuleHelp.textContent = await getMessageAsync('matchingRuleHelp');
   }
   
   const chooseIconSourceTitle = document.querySelector('#chooseIconSourceTitle');
   if (chooseIconSourceTitle) {
-    chooseIconSourceTitle.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 8px;">image</i>${getMessage('chooseIconSource')}`;
+    chooseIconSourceTitle.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 8px;">image</i>${await getMessageAsync('chooseIconSource')}`;
   }
   
   const chooseIconSourceHelp = document.querySelector('#chooseIconSourceHelp');
   if (chooseIconSourceHelp) {
-    chooseIconSourceHelp.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 4px; font-size: 16px;">info</i>${getMessage('selectOneIconSource')}`;
+    chooseIconSourceHelp.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 4px; font-size: 16px;">info</i>${await getMessageAsync('selectOneIconSource')}`;
   }
   
   // Update accordion titles
   const urlAccordionTitle = document.querySelector('#urlAccordionTitle');
   if (urlAccordionTitle) {
-    urlAccordionTitle.textContent = getMessage('externalImageUrl');
+    urlAccordionTitle.textContent = await getMessageAsync('externalImageUrl');
   }
   
   const bundledAccordionTitle = document.querySelector('#bundledAccordionTitle');
   if (bundledAccordionTitle) {
-    bundledAccordionTitle.textContent = getMessage('selectBundledIcon');
+    bundledAccordionTitle.textContent = await getMessageAsync('selectBundledIcon');
   }
   
   const uploadAccordionTitle = document.querySelector('#uploadAccordionTitle');
   if (uploadAccordionTitle) {
-    uploadAccordionTitle.textContent = getMessage('uploadNewIcon');
+    uploadAccordionTitle.textContent = await getMessageAsync('uploadNewIcon');
   }
   
   const externalImageUrlLabel = document.querySelector('#externalImageUrlLabel');
   if (externalImageUrlLabel) {
-    externalImageUrlLabel.textContent = getMessage('externalImageUrl');
+    externalImageUrlLabel.textContent = await getMessageAsync('externalImageUrl');
   }
   
   const externalImageUrlHelp = document.querySelector('#externalImageUrlHelp');
   if (externalImageUrlHelp) {
-    externalImageUrlHelp.textContent = getMessage('externalImageUrlHelp');
+    externalImageUrlHelp.textContent = await getMessageAsync('externalImageUrlHelp');
   }
   
   const selectBundledIconLabel = document.querySelector('#selectBundledIconLabel');
   if (selectBundledIconLabel) {
-    selectBundledIconLabel.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 8px;">folder</i>${getMessage('selectBundledIcon')}`;
+    selectBundledIconLabel.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 8px;">folder</i>${await getMessageAsync('selectBundledIcon')}`;
   }
   
   const uploadNewIconLabel = document.querySelector('#uploadNewIconLabel');
   if (uploadNewIconLabel) {
-    uploadNewIconLabel.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 8px;">cloud_upload</i>${getMessage('uploadNewIcon')}`;
+    uploadNewIconLabel.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 8px;">cloud_upload</i>${await getMessageAsync('uploadNewIcon')}`;
   }
   
   const oneIconSourceNote = document.querySelector('#oneIconSourceNote');
   if (oneIconSourceNote) {
-    oneIconSourceNote.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 4px; font-size: 16px;">info</i>${getMessage('oneIconSourceNote')}`;
+    oneIconSourceNote.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 4px; font-size: 16px;">info</i>${await getMessageAsync('oneIconSourceNote')}`;
   }
   
   const saveButton = document.querySelector('#save span');
   if (saveButton) {
-    saveButton.textContent = getMessage('saveSetting');
+    saveButton.textContent = await getMessageAsync('saveSetting');
   }
   
   const clearFormButton = document.querySelector('#clearForm span');
   if (clearFormButton) {
-    clearFormButton.textContent = getMessage('clearForm');
+    clearFormButton.textContent = await getMessageAsync('clearForm');
   }
   
   const currentSettingsTitle = document.querySelector('#currentSettingsTitle');
   if (currentSettingsTitle) {
-    currentSettingsTitle.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 8px;">list</i>${getMessage('currentSettings')}`;
+    currentSettingsTitle.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 8px;">list</i>${await getMessageAsync('currentSettings')}`;
   }
   
   // Update file upload text
   const fileUploadLabel = document.querySelector('.file-upload-label span');
   if (fileUploadLabel) {
-    fileUploadLabel.textContent = getMessage('chooseFileOrDrag');
+    fileUploadLabel.textContent = await getMessageAsync('chooseFileOrDrag');
   }
   
   // Update placeholders
   const domainInput = document.querySelector('#domain');
   if (domainInput) {
-    domainInput.placeholder = getMessage('matchingRulePlaceholder');
+    domainInput.placeholder = await getMessageAsync('matchingRulePlaceholder');
   }
   
   const faviconUrlInput = document.querySelector('#faviconUrl');
   if (faviconUrlInput) {
-    faviconUrlInput.placeholder = getMessage('externalImageUrlPlaceholder');
+    faviconUrlInput.placeholder = await getMessageAsync('externalImageUrlPlaceholder');
   }
   
   // Update no bundled icons text if container exists
   const noBundledIconsText = document.querySelector('#noBundledIconsText');
   if (noBundledIconsText) {
-    noBundledIconsText.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 4px;">info</i>${getMessage('noBundledIcons')}`;
+    noBundledIconsText.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 4px;">info</i>${await getMessageAsync('noBundledIcons')}`;
   }
 }
 
@@ -441,7 +441,7 @@ function openAccordionSection(source) {
 // Function to generate radio buttons for bundled icons
 function populateBundledIcons() {
   if (bundledIconFilenames.length === 0) {
-    bundledIconsContainer.innerHTML = `<p class="body2"><i class="material-icons" style="vertical-align: middle; margin-right: 4px;">info</i>${getMessage('noBundledIconsDefined')}</p>`;
+    bundledIconsContainer.innerHTML = `<p class="body2"><i class="material-icons" style="vertical-align: middle; margin-right: 4px;">info</i>${chrome.i18n.getMessage('noBundledIconsDefined')}</p>`;
     return;
   }
 
@@ -464,7 +464,7 @@ function populateBundledIcons() {
     img.src = iconUrl;
     img.alt = filename;
     img.onerror = () => { 
-        console.warn(getMessage('couldNotLoadBundledIcon', [filename]));
+        console.warn(chrome.i18n.getMessage('couldNotLoadBundledIcon', [filename]));
         iconOption.style.display = 'none'; // Hide broken icon option
     };
 
@@ -493,18 +493,21 @@ function populateBundledIcons() {
 }
 
 // Load existing settings when the options page opens
-function loadSettings() {
-  chrome.storage.sync.get(['faviconSettings'], (result) => {
-    const settings = result.faviconSettings || {};
-    settingsListDiv.innerHTML = '';
-    for (const domain in settings) {
-      addSettingToList(domain, settings[domain]);
-    }
+async function loadSettings() {
+  return new Promise((resolve) => {
+    chrome.storage.sync.get(['faviconSettings'], async (result) => {
+      const settings = result.faviconSettings || {};
+      settingsListDiv.innerHTML = '';
+      for (const domain in settings) {
+        await addSettingToList(domain, settings[domain]);
+      }
+      resolve();
+    });
   });
 }
 
 // Add a setting to the displayed list (adjust display logic)
-function addSettingToList(settingKey, iconIdentifier) {
+async function addSettingToList(settingKey, iconIdentifier) {
   const listItem = document.createElement('div');
   listItem.className = 'list-item';
   
@@ -519,7 +522,7 @@ function addSettingToList(settingKey, iconIdentifier) {
   // Icon processing display (Determine iconType)
   if (iconIdentifier.startsWith('data:image/')) {
     imgPrev.src = iconIdentifier;
-    valueDisplay = getMessage('uploadedResizedIcon');
+    valueDisplay = await getMessageAsync('uploadedResizedIcon');
     iconType = 'data';
   } else if (iconIdentifier.startsWith('http')) {
     // This case is less likely now but handle it
@@ -531,11 +534,11 @@ function addSettingToList(settingKey, iconIdentifier) {
     // Bundled icon (filename)
     try {
       imgPrev.src = chrome.runtime.getURL(`images/${iconIdentifier}`);
-      valueDisplay = `${getMessage('bundled')}: ${iconIdentifier}`;
+      valueDisplay = `${await getMessageAsync('bundled')}: ${iconIdentifier}`;
       iconType = 'bundled';
     } catch (e) {
       imgPrev.style.display = 'none';
-      valueDisplay = `${getMessage('bundled')}: ${iconIdentifier} (Error?)`;
+      valueDisplay = `${await getMessageAsync('bundled')}: ${iconIdentifier} (Error?)`;
       iconType = 'bundled_error'; // Indicate potential issue
     }
   }
@@ -551,7 +554,7 @@ function addSettingToList(settingKey, iconIdentifier) {
   
   const primaryText = document.createElement('div');
   primaryText.className = 'list-item-primary';
-  const localizedRuleType = ruleType === "Prefix" ? getMessage('prefix') : getMessage('keyword');
+  const localizedRuleType = ruleType === "Prefix" ? await getMessageAsync('prefix') : await getMessageAsync('keyword');
   primaryText.textContent = `${settingKey}`;
   
   const secondaryText = document.createElement('div');
@@ -562,7 +565,7 @@ function addSettingToList(settingKey, iconIdentifier) {
   contentContainer.appendChild(secondaryText);
 
   // --- Add Click Listener for Editing ---
-  contentContainer.addEventListener('click', () => {
+  contentContainer.addEventListener('click', async () => {
     console.log(`Editing setting: ${settingKey}`);
     // Populate the rule input
     domainInput.value = settingKey;
@@ -587,7 +590,7 @@ function addSettingToList(settingKey, iconIdentifier) {
     } else if (iconType === 'data'){
       // Can't pre-fill file input or easily show Data URL preview here.
       // User must select a new source if they want to change the icon.
-      alert(getMessage('editingUploadedIcon'));
+      alert(await getMessageAsync('editingUploadedIcon'));
       // Open upload accordion
       openAccordionSection('upload');
     } else {
@@ -603,7 +606,7 @@ function addSettingToList(settingKey, iconIdentifier) {
   const deleteButton = document.createElement('button');
   deleteButton.className = 'btn btn-secondary';
   deleteButton.innerHTML = `<i class="material-icons" style="font-size: 18px;">delete</i>`;
-  deleteButton.title = getMessage('delete');
+  deleteButton.title = await getMessageAsync('delete');
   deleteButton.addEventListener('click', (e) => {
     e.stopPropagation(); // Prevent triggering the edit click
     // Optionally clear form if deleting the item being edited
@@ -842,7 +845,7 @@ function initLanguageSelector() {
     await saveLanguageSetting(newLanguage);
     
     // Reload the interface with new language
-    await setupLocalizedText();
+    await refreshInterface();
     
     // Show success message
     console.log(`Language changed to: ${newLanguage}`);
@@ -882,7 +885,7 @@ function initHelpAccordions() {
 async function refreshInterface() {
   await setupLocalizedText();
   populateBundledIcons();
-  loadSettings();
+  await loadSettings(); // Wait for settings to load with new language
   initAccordion();
   initLanguageSelector();
   initHelpAccordions();

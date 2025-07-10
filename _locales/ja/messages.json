@@ -226,5 +226,9 @@
   "howDoesMatchingWork": {
     "message": "マッチングの仕組みは？",
     "description": "マッチングルールのヘルプアコーディオンタイトル"
+  },
+  "chooseFileOrDrag": {
+    "message": "ファイルを選択またはドラッグ",
+    "description": "ファイルアップロードラベルテキスト"
   }
 } 

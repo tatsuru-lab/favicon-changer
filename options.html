@@ -412,6 +412,56 @@
       font-size: 24px;
     }
 
+    /* Compact language selector styles */
+    .language-selector-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 24px;
+      padding: 12px 16px;
+      background: rgba(98, 0, 234, 0.04);
+      border-radius: 8px;
+      border-left: 4px solid var(--primary-color);
+    }
+
+    .language-label {
+      display: flex;
+      align-items: center;
+      margin-right: 16px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      white-space: nowrap;
+    }
+
+    .language-label .material-icons {
+      font-size: 18px;
+      margin-right: 6px;
+      color: var(--primary-color);
+    }
+
+    .language-select-compact {
+      padding: 6px 12px;
+      border: 1px solid rgba(0, 0, 0, 0.23);
+      border-radius: 4px;
+      background-color: var(--surface);
+      font-size: 14px;
+      font-family: 'Roboto', sans-serif;
+      color: var(--text-primary);
+      transition: all 0.2s ease;
+      min-width: 120px;
+    }
+
+    .language-select-compact:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      border-width: 2px;
+      box-shadow: 0 0 0 1px rgba(98, 0, 234, 0.2);
+    }
+
+    .language-select-compact:hover {
+      border-color: var(--primary-color);
+    }
+
     /* Help Text */
     .help-text {
       background: rgba(98, 0, 234, 0.04);
@@ -419,6 +469,81 @@
       padding: 16px;
       margin: 16px 0;
       border-radius: 0 4px 4px 0;
+    }
+
+    /* Help Accordion */
+    .help-accordion {
+      margin: 16px 0;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .help-accordion-header {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      background: rgba(0, 0, 0, 0.02);
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      user-select: none;
+    }
+
+    .help-accordion-header:hover {
+      background: rgba(98, 0, 234, 0.04);
+    }
+
+    .help-accordion-header.active {
+      background: rgba(98, 0, 234, 0.08);
+    }
+
+    .help-accordion-icon {
+      font-size: 18px;
+      margin-right: 8px;
+      color: var(--text-secondary);
+    }
+
+    .help-accordion-header.active .help-accordion-icon {
+      color: var(--primary-color);
+    }
+
+    .help-accordion-header span {
+      flex-grow: 1;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .help-accordion-header.active span {
+      color: var(--primary-color);
+    }
+
+    .help-accordion-chevron {
+      font-size: 20px;
+      color: var(--text-secondary);
+      transition: transform 0.2s ease;
+    }
+
+    .help-accordion-header.active .help-accordion-chevron {
+      transform: rotate(180deg);
+      color: var(--primary-color);
+    }
+
+    .help-accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .help-accordion-content.active {
+      max-height: 200px;
+    }
+
+    .help-accordion-content p {
+      padding: 16px;
+      margin: 0;
+      background: rgba(98, 0, 234, 0.02);
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
     }
 
     /* Responsive */
@@ -447,6 +572,23 @@
       
       .icon-option label {
         font-size: 0.6rem;
+      }
+
+      /* Compact language selector on mobile */
+      .language-selector-container {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px;
+      }
+      
+      .language-label {
+        margin-right: 0;
+        margin-bottom: 8px;
+      }
+      
+      .language-select-compact {
+        width: 100%;
+        min-width: auto;
       }
     }
 
@@ -481,17 +623,37 @@
           Click on an item in 'Current Settings' below to edit it.
         </p>
 
+        <!-- Language Selection Section -->
+        <div class="language-selector-container">
+          <label for="languageSelect" id="languageSelectLabel" class="language-label">
+            <i class="material-icons">language</i>
+            Language:
+          </label>
+          <select id="languageSelect" class="language-select-compact">
+            <option value="auto">Auto</option>
+            <option value="en">English</option>
+            <option value="ja">日本語</option>
+          </select>
+        </div>
+
         <div class="text-field">
           <input type="text" id="domain" placeholder=" ">
           <label for="domain" id="matchingRuleLabel">Matching Rule (URL Prefix or Keyword)</label>
         </div>
 
-        <div class="help-text">
-          <p class="body2" id="matchingRuleHelp">
-            Enter a URL prefix (e.g., `example.com`, `sub.example.com/docs`) for prefix matching (applies to subdomains/subpaths).
-            Or, enter a simple keyword (e.g., `jira`, `report`) to match anywhere in the `hostname/pathname`.
-            Prefix rules take precedence over keyword rules.
-          </p>
+        <div class="help-accordion">
+          <div class="help-accordion-header" id="matchingRuleHelpHeader">
+            <i class="material-icons help-accordion-icon">help_outline</i>
+            <span id="matchingRuleHelpTitle">How does matching work?</span>
+            <i class="material-icons help-accordion-chevron">keyboard_arrow_down</i>
+          </div>
+          <div class="help-accordion-content" id="matchingRuleHelpContent">
+            <p class="body2" id="matchingRuleHelp">
+              Enter a URL prefix (e.g., `example.com`, `sub.example.com/docs`) for prefix matching (applies to subdomains/subpaths).
+              Or, enter a simple keyword (e.g., `jira`, `report`) to match anywhere in the `hostname/pathname`.
+              Prefix rules take precedence over keyword rules.
+            </p>
+          </div>
         </div>
 
         <h3 class="headline6" id="chooseIconSourceTitle">

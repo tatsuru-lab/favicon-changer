@@ -28,7 +28,7 @@
     "description": "Placeholder text for the matching rule input"
   },
   "matchingRuleHelp": {
-    "message": "プレフィックスマッチング用にURLプレフィックス（例：`example.com`、`sub.example.com/docs`）を入力してください（サブドメイン・サブパスに適用されます）。または、`hostname/pathname`の任意の場所でマッチさせるため、シンプルなキーワード（例：`jira`、`report`）を入力してください。プレフィックスルールはキーワードルールよりも優先されます。",
+    "message": "URLプレフィックス（例：`example.com`、`sub.example.com/docs`）またはキーワード（例：`jira`、`report`）を入力。プレフィックスルールが優先されます。",
     "description": "Help text explaining how matching rules work"
   },
   "chooseIconSource": {
@@ -218,5 +218,13 @@
   "selectOneIconSource": {
     "message": "以下のアイコンソースから一つを選択してください:",
     "description": "Help text instructing user to select one icon source"
+  },
+  "language": {
+    "message": "言語",
+    "description": "言語選択ラベル"
+  },
+  "howDoesMatchingWork": {
+    "message": "マッチングの仕組みは？",
+    "description": "マッチングルールのヘルプアコーディオンタイトル"
   }
 } 

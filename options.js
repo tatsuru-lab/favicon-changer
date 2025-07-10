@@ -11,33 +11,190 @@ const bundledIconFilenames = [
   // 'project_a.svg'
 ];
 
-// Function to get localized message
-function getMessage(key, substitutions = []) {
+// Available languages configuration
+const AVAILABLE_LANGUAGES = {
+  'auto': { name: 'Auto (System Default)', nativeName: 'Auto (System Default)' },
+  'en': { name: 'English', nativeName: 'English' },
+  'ja': { name: 'Japanese', nativeName: '日本語' }
+};
+
+// Current language setting (will be loaded from storage)
+let currentLanguage = 'auto';
+
+// Function to get localized message with custom language support
+function getMessage(key, substitutions = [], forceLanguage = null) {
+  const targetLanguage = forceLanguage || currentLanguage;
+  
+  // If auto or language not specified, use Chrome's default behavior
+  if (targetLanguage === 'auto' || !targetLanguage) {
+    if (substitutions.length === 0) {
+      return chrome.i18n.getMessage(key);
+    }
+    return chrome.i18n.getMessage(key, substitutions);
+  }
+  
+  // Try to get message from specific language
+  try {
+    // Load messages from the specific locale
+    const message = getMessageFromLocale(key, targetLanguage);
+    if (message) {
+      return formatMessage(message, substitutions);
+    }
+  } catch (e) {
+    console.warn(`Failed to get message "${key}" for language "${targetLanguage}":`, e);
+  }
+  
+  // Fallback to Chrome's default behavior
   if (substitutions.length === 0) {
     return chrome.i18n.getMessage(key);
   }
   return chrome.i18n.getMessage(key, substitutions);
 }
 
+// Cache for loaded language messages
+const languageMessagesCache = {};
+
+// Helper function to get message from specific locale
+function getMessageFromLocale(key, language) {
+  // Check cache first
+  if (languageMessagesCache[language] && languageMessagesCache[language][key]) {
+    return languageMessagesCache[language][key].message;
+  }
+  
+  // Try to load from locale files
+  try {
+    const localeUrl = chrome.runtime.getURL(`_locales/${language}/messages.json`);
+    // Since we can't use synchronous fetch in this context, we'll implement async loading
+    // For now, return null to use fallback
+    return null;
+  } catch (e) {
+    console.warn(`Failed to load locale ${language}:`, e);
+    return null;
+  }
+}
+
+// Function to load messages for a specific language
+async function loadLanguageMessages(language) {
+  if (languageMessagesCache[language]) {
+    return languageMessagesCache[language];
+  }
+  
+  try {
+    const localeUrl = chrome.runtime.getURL(`_locales/${language}/messages.json`);
+    const response = await fetch(localeUrl);
+    if (response.ok) {
+      const messages = await response.json();
+      languageMessagesCache[language] = messages;
+      return messages;
+    }
+  } catch (e) {
+    console.warn(`Failed to load messages for language ${language}:`, e);
+  }
+  
+  return null;
+}
+
+// Enhanced getMessage function with async language loading
+async function getMessageAsync(key, substitutions = [], forceLanguage = null) {
+  const targetLanguage = forceLanguage || currentLanguage;
+  
+  // If auto or language not specified, use Chrome's default behavior
+  if (targetLanguage === 'auto' || !targetLanguage) {
+    if (substitutions.length === 0) {
+      return chrome.i18n.getMessage(key);
+    }
+    return chrome.i18n.getMessage(key, substitutions);
+  }
+  
+  // Try to get message from specific language
+  try {
+    const messages = await loadLanguageMessages(targetLanguage);
+    if (messages && messages[key]) {
+      return formatMessage(messages[key].message, substitutions);
+    }
+  } catch (e) {
+    console.warn(`Failed to get message "${key}" for language "${targetLanguage}":`, e);
+  }
+  
+  // Fallback to Chrome's default behavior
+  if (substitutions.length === 0) {
+    return chrome.i18n.getMessage(key);
+  }
+  return chrome.i18n.getMessage(key, substitutions);
+}
+
+// Function to load language setting from storage
+async function loadLanguageSetting() {
+  try {
+    const result = await chrome.storage.sync.get(['selectedLanguage']);
+    currentLanguage = result.selectedLanguage || 'auto';
+    console.log('Loaded language setting:', currentLanguage);
+  } catch (error) {
+    console.error('Failed to load language setting:', error);
+    currentLanguage = 'auto';
+  }
+}
+
+// Function to save language setting to storage
+async function saveLanguageSetting(language) {
+  try {
+    await chrome.storage.sync.set({ selectedLanguage: language });
+    currentLanguage = language;
+    console.log('Saved language setting:', language);
+  } catch (error) {
+    console.error('Failed to save language setting:', error);
+  }
+}
+
+// Helper function to format message with substitutions
+function formatMessage(message, substitutions) {
+  if (!substitutions || substitutions.length === 0) {
+    return message;
+  }
+  
+  let formatted = message;
+  substitutions.forEach((substitution, index) => {
+    const placeholder = `$${index + 1}`;
+    formatted = formatted.replace(new RegExp('\\' + placeholder, 'g'), substitution);
+  });
+  
+  return formatted;
+}
+
 // Function to set up localized text
-function setupLocalizedText() {
+async function setupLocalizedText() {
   // Update HTML page title
-  document.title = getMessage('optionsTitle');
+  document.title = await getMessageAsync('optionsTitle');
   
   // Update main elements text
   const mainTitle = document.querySelector('#mainTitle');
   if (mainTitle) {
-    mainTitle.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 12px; color: var(--primary-color);">palette</i>${getMessage('optionsTitle')}`;
+    mainTitle.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 12px; color: var(--primary-color);">palette</i>${await getMessageAsync('optionsTitle')}`;
   }
   
   const addUpdateTitle = document.querySelector('#addUpdateTitle');
   if (addUpdateTitle) {
-    addUpdateTitle.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 8px;">add_circle</i>${getMessage('addUpdateSetting')}`;
+    addUpdateTitle.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 8px;">add_circle</i>${await getMessageAsync('addUpdateSetting')}`;
+  }
+  
+  // Update language settings section
+  const languageSelectLabel = document.querySelector('#languageSelectLabel');
+  if (languageSelectLabel) {
+    const icon = languageSelectLabel.querySelector('.material-icons');
+    if (icon) {
+      languageSelectLabel.innerHTML = `<i class="material-icons">language</i>${await getMessageAsync('language')}:`;
+    }
   }
   
   const clickToEditText = document.querySelector('#clickToEditText');
   if (clickToEditText) {
-    clickToEditText.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 4px; font-size: 16px;">info</i>${getMessage('clickToEdit')}`;
+    clickToEditText.innerHTML = `<i class="material-icons" style="vertical-align: middle; margin-right: 4px; font-size: 16px;">info</i>${await getMessageAsync('clickToEdit')}`;
+  }
+  
+  // Update help accordion title
+  const matchingRuleHelpTitle = document.querySelector('#matchingRuleHelpTitle');
+  if (matchingRuleHelpTitle) {
+    matchingRuleHelpTitle.textContent = await getMessageAsync('howDoesMatchingWork');
   }
   
   const matchingRuleLabel = document.querySelector('#matchingRuleLabel');
@@ -671,10 +828,71 @@ function clearForm() {
 
 // Event listeners and initial population
 saveButton.addEventListener('click', saveSetting);
-clearFormButton.addEventListener('click', clearForm); // Renamed function and updated listener
-document.addEventListener('DOMContentLoaded', () => {
-    setupLocalizedText();
-    populateBundledIcons();
-    loadSettings();
-    initAccordion(); // Initialize accordion functionality
+clearFormButton.addEventListener('click', clearForm); // Function to initialize language selector
+function initLanguageSelector() {
+  const languageSelect = document.getElementById('languageSelect');
+  if (!languageSelect) return;
+  
+  // Set current language
+  languageSelect.value = currentLanguage;
+  
+  // Add event listener for language changes
+  languageSelect.addEventListener('change', async (e) => {
+    const newLanguage = e.target.value;
+    await saveLanguageSetting(newLanguage);
+    
+    // Reload the interface with new language
+    await setupLocalizedText();
+    
+    // Show success message
+    console.log(`Language changed to: ${newLanguage}`);
+  });
+}
+
+// Function to initialize help accordions
+function initHelpAccordions() {
+  const helpHeaders = document.querySelectorAll('.help-accordion-header');
+  
+  helpHeaders.forEach(header => {
+    header.addEventListener('click', () => {
+      const content = header.nextElementSibling;
+      const isActive = header.classList.contains('active');
+      
+      // Close all other help accordions
+      helpHeaders.forEach(otherHeader => {
+        if (otherHeader !== header) {
+          otherHeader.classList.remove('active');
+          otherHeader.nextElementSibling.classList.remove('active');
+        }
+      });
+      
+      // Toggle current accordion
+      if (isActive) {
+        header.classList.remove('active');
+        content.classList.remove('active');
+      } else {
+        header.classList.add('active');
+        content.classList.add('active');
+      }
+    });
+  });
+}
+
+// Function to refresh interface with current language
+async function refreshInterface() {
+  await setupLocalizedText();
+  populateBundledIcons();
+  loadSettings();
+  initAccordion();
+  initLanguageSelector();
+  initHelpAccordions();
+}
+
+// Renamed function and updated listener
+document.addEventListener('DOMContentLoaded', async () => {
+    // Load language setting first
+    await loadLanguageSetting();
+    
+    // Initialize interface
+    await refreshInterface();
 }); 

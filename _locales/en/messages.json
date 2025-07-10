@@ -28,7 +28,7 @@
     "description": "Placeholder text for the matching rule input"
   },
   "matchingRuleHelp": {
-    "message": "Enter a URL prefix (e.g., `example.com`, `sub.example.com/docs`) for prefix matching (applies to subdomains/subpaths). Or, enter a simple keyword (e.g., `jira`, `report`) to match anywhere in the `hostname/pathname`. Prefix rules take precedence over keyword rules.",
+    "message": "Enter a URL prefix (e.g., `example.com`, `sub.example.com/docs`) or keyword (e.g., `jira`, `report`). Prefix rules take precedence.",
     "description": "Help text explaining how matching rules work"
   },
   "chooseIconSource": {
@@ -218,5 +218,13 @@
   "selectOneIconSource": {
     "message": "Select one of the following icon sources:",
     "description": "Help text instructing user to select one icon source"
+  },
+  "language": {
+    "message": "Language",
+    "description": "Language selector label"
+  },
+  "howDoesMatchingWork": {
+    "message": "How does matching work?",
+    "description": "Help accordion title for matching rules"
   }
 } 

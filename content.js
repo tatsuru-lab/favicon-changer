@@ -7,7 +7,7 @@ function getMessage(key, substitutions = []) {
   return chrome.i18n.getMessage(key, substitutions);
 }
 
-console.log(getMessage('contentScriptLoaded'));
+// console.log(getMessage('contentScriptLoaded'));
 
 function changeFavicon(iconIdentifier) {
   let faviconUrl;
@@ -16,16 +16,16 @@ function changeFavicon(iconIdentifier) {
   if (iconIdentifier.startsWith('data:image/')) {
     // Handle Data URL directly
     faviconUrl = iconIdentifier;
-    console.log(getMessage('usingDataUrl', [faviconUrl.substring(0, 50)]));
+    // console.log(getMessage('usingDataUrl', [faviconUrl.substring(0, 50)]));
   } else if (iconIdentifier.startsWith('http://') || iconIdentifier.startsWith('https://')) {
     // Handle external URL
     faviconUrl = iconIdentifier;
-    console.log(getMessage('usingExternalUrl', [faviconUrl]));
+    // console.log(getMessage('usingExternalUrl', [faviconUrl]));
   } else {
     // Assume it's a bundled filename within the 'images' folder
     try {
       faviconUrl = chrome.runtime.getURL(`images/${iconIdentifier}`);
-      console.log(getMessage('usingBundledIcon', [faviconUrl]));
+      // console.log(getMessage('usingBundledIcon', [faviconUrl]));
     } catch (e) {
       console.error(getMessage('errorGettingBundledIcon', [iconIdentifier, e]));
       return; // Don't proceed if the URL couldn't be generated
@@ -64,7 +64,7 @@ function changeFavicon(iconIdentifier) {
   link.href = faviconUrl;
   document.head.appendChild(link);
   const displayUrl = faviconUrl.startsWith('data:') ? getMessage('faviconChangedDataUrl') : faviconUrl;
-  console.log(getMessage('faviconChanged', [displayUrl]));
+  // console.log(getMessage('faviconChanged', [displayUrl]));
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -85,7 +85,7 @@ chrome.storage.sync.get(['faviconSettings'], (result) => {
   const settings = result.faviconSettings || {};
   const domain = window.location.hostname;
   if (settings[domain]) {
-    console.log("(Initial Load) Found setting for", domain, ":", settings[domain]);
+    // console.log("(Initial Load) Found setting for", domain, ":", settings[domain]);
     // Need to wait for head to be available
     if (document.readyState === 'loading') { // or 'interactive'
         document.addEventListener('DOMContentLoaded', () => {

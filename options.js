@@ -128,7 +128,7 @@ async function loadLanguageSetting() {
   try {
     const result = await chrome.storage.sync.get(['selectedLanguage']);
     currentLanguage = result.selectedLanguage || 'auto';
-    console.log('Loaded language setting:', currentLanguage);
+    // console.log('Loaded language setting:', currentLanguage);
   } catch (error) {
     console.error('Failed to load language setting:', error);
     currentLanguage = 'auto';
@@ -140,7 +140,7 @@ async function saveLanguageSetting(language) {
   try {
     await chrome.storage.sync.set({ selectedLanguage: language });
     currentLanguage = language;
-    console.log('Saved language setting:', language);
+    // console.log('Saved language setting:', language);
   } catch (error) {
     console.error('Failed to save language setting:', error);
   }
@@ -566,7 +566,7 @@ async function addSettingToList(settingKey, iconIdentifier) {
 
   // --- Add Click Listener for Editing ---
   contentContainer.addEventListener('click', async () => {
-    console.log(`Editing setting: ${settingKey}`);
+    // console.log(`Editing setting: ${settingKey}`);
     // Populate the rule input
     domainInput.value = settingKey;
 
@@ -696,7 +696,7 @@ async function saveSetting() {
     let settingKey;
     if (ruleInput.includes('.') || ruleInput.includes('/')) {
         // Treat as URL Prefix
-        console.log("Input treated as URL prefix:", ruleInput);
+        // console.log("Input treated as URL prefix:", ruleInput);
         try {
             let parseUrl = ruleInput;
             if (!parseUrl.startsWith('http://') && !parseUrl.startsWith('https://')) {
@@ -709,7 +709,7 @@ async function saveSetting() {
             if (!pathname.startsWith('/')) pathname = '/' + pathname;
             if (pathname.length > 1 && pathname.endsWith('/')) pathname = pathname.slice(0, -1);
             settingKey = hostname + pathname;
-            console.log(`Generated prefix key: ${settingKey}`);
+            // console.log(`Generated prefix key: ${settingKey}`);
         } catch (e) {
             alert(getMessage('invalidUrlPrefix', [ruleInput]));
             saveButton.disabled = false; 
@@ -720,7 +720,7 @@ async function saveSetting() {
     } else {
         // Treat as Keyword
         settingKey = ruleInput;
-        console.log("Input treated as keyword:", settingKey);
+        // console.log("Input treated as keyword:", settingKey);
     }
     // --- End Key Generation ---
 
@@ -759,7 +759,7 @@ async function saveSetting() {
             const settings = result.faviconSettings || {};
             settings[settingKey] = iconIdentifierToSave;
             chrome.storage.sync.set({ faviconSettings: settings }, () => {
-                console.log('Settings saved for key:', settingKey);
+                // console.log('Settings saved for key:', settingKey);
                 clearForm(); // Use clearForm function to reset everything including accordion
                 loadSettings();
                 saveButton.disabled = false; 
@@ -794,7 +794,7 @@ function deleteSetting(settingKeyToDelete) {
     if (settings[settingKeyToDelete]) {
       delete settings[settingKeyToDelete];
       chrome.storage.sync.set({ faviconSettings: settings }, () => {
-        console.log(`Setting for ${settingKeyToDelete} deleted.`);
+        // console.log(`Setting for ${settingKeyToDelete} deleted.`);
         loadSettings(); // Reload the list
       });
     }
@@ -803,7 +803,7 @@ function deleteSetting(settingKeyToDelete) {
 
 // --- Function to Clear the Input Form ---
 function clearForm() {
-    console.log("Clearing the form fields.");
+    // console.log("Clearing the form fields.");
     domainInput.value = '';
     faviconUrlInput.value = '';
     iconUploadInput.value = ''; // Clears the selected file
@@ -848,7 +848,7 @@ function initLanguageSelector() {
     await refreshInterface();
     
     // Show success message
-    console.log(`Language changed to: ${newLanguage}`);
+    // console.log(`Language changed to: ${newLanguage}`);
   });
 }
 

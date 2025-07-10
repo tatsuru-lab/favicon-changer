@@ -22,7 +22,7 @@ async function ensureOffscreenDocument(path = 'offscreen.html') {
     if (creatingOffscreenDocument) {
         await creatingOffscreenDocument;
     } else {
-        console.log(getMessage('creatingOffscreenDocument'));
+        // console.log(getMessage('creatingOffscreenDocument'));
         creatingOffscreenDocument = chrome.offscreen.createDocument({
             url: path,
             reasons: ['OFFSCREEN_CANVAS'],
@@ -30,20 +30,20 @@ async function ensureOffscreenDocument(path = 'offscreen.html') {
         });
         await creatingOffscreenDocument;
         creatingOffscreenDocument = null; // Reset the promise after creation
-        console.log(getMessage('offscreenDocumentCreated'));
+        // console.log(getMessage('offscreenDocumentCreated'));
     }
 }
 
 // Function to send resize request to offscreen document
 async function resizeImageOffscreen(imageUrl) {
     await ensureOffscreenDocument();
-    console.log("Sending resize request to offscreen for:", imageUrl);
+    // console.log("Sending resize request to offscreen for:", imageUrl);
     const response = await chrome.runtime.sendMessage({
         type: 'resizeImage',
         target: 'offscreen',
         imageUrl: imageUrl
     });
-    console.log("Background received response from offscreen:", response);
+    // console.log("Background received response from offscreen:", response);
     if (response && response.success) {
         return response.dataUrl;
     } else {
@@ -116,7 +116,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
         const finalFaviconIdentifier = settings[finalMatchKey];
         const matchType = finalMatchKey.includes('/') ? "Prefix" : "Keyword"; // Type determined by the key itself
         const localizedMatchType = matchType === "Prefix" ? getMessage('prefix') : getMessage('keyword');
-        console.log(getMessage('applyingIconMatch', [localizedMatchType, finalMatchKey, stringToTest]));
+        // console.log(getMessage('applyingIconMatch', [localizedMatchType, finalMatchKey, stringToTest]));
 
         // Send the identifier to content script
         chrome.tabs.sendMessage(tabId, {
